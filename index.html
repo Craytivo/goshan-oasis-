@@ -7,6 +7,9 @@
   <link rel="icon" href="assets\images\favicon.ico" type="image/x-icon">
 <link rel="icon" href="assets\images\favicon-32x32.png" type="image/png">
 <script src="https://unpkg.com/lucide@latest" defer></script>
+
+
+
 <script>
   window.addEventListener("DOMContentLoaded", () => {
     lucide.createIcons();
@@ -205,77 +208,98 @@
 
 
 
-<!-- Gallery -->
-<section class="py-24 px-6 bg-[#1c2a21] text-[#f4e9d3] font-body">
+<!-- Swiper CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- Gallery Section -->
+<section class="h-[50vh] md:h-auto pt-10 pb-14 md:py-24 px-6 bg-[#1c2a21] text-[#f4e9d3] font-body overflow-hidden">
   <div class="max-w-7xl mx-auto">
-
     <!-- Heading -->
-    <h2 class="text-4xl sm:text-5xl font-heading font-bold text-center text-[#f4e9d3] mb-6">
-      Take a Look Inside
-    </h2>
-
-    <!-- Subheading -->
-    <p class="text-lg sm:text-xl text-[#f4e9d3]/90 text-center max-w-3xl mx-auto mb-14 leading-relaxed">
+    <h2 class="text-4xl sm:text-5xl font-heading font-bold text-center mb-6">Take a Look Inside</h2>
+    <p class="text-lg sm:text-xl text-[#f4e9d3]/90 text-center max-w-3xl mx-auto mb-8 md:mb-14 leading-relaxed">
       Clean, modern, and built for comfort — explore some of the real spaces at Goshen Oasis Boarding House.
     </p>
 
-    <!-- Image Grid -->
-    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-10">
-      <!-- Card Template -->
-      <div class="rounded-lg overflow-hidden shadow-lg bg-white/10 backdrop-blur-sm border border-[#f4e9d3]/10">
-        <img src="https://via.placeholder.com/400x250" alt="Student Bedroom" class="w-full h-64 object-cover" />
-        <div class="p-4 text-center border-t border-[#f4e9d3]/20">
-          <p class="text-sm font-medium text-[#f4e9d3]">Spacious Bedroom with Study Desk</p>
-        </div>
-      </div>
+    <!-- Desktop Grid -->
+    <div id="galleryGrid" class="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-8"></div>
 
-      <div class="rounded-lg overflow-hidden shadow-lg bg-white/10 backdrop-blur-sm border border-[#f4e9d3]/10">
-        <img src="https://via.placeholder.com/400x250" alt="Shared Kitchen" class="w-full h-64 object-cover" />
-        <div class="p-4 text-center border-t border-[#f4e9d3]/20">
-          <p class="text-sm font-medium text-[#f4e9d3]">Fully Equipped Shared Kitchen</p>
-        </div>
-      </div>
-
-      <div class="rounded-lg overflow-hidden shadow-lg bg-white/10 backdrop-blur-sm border border-[#f4e9d3]/10">
-        <img src="https://via.placeholder.com/400x250" alt="Modern Bathroom" class="w-full h-64 object-cover" />
-        <div class="p-4 text-center border-t border-[#f4e9d3]/20">
-          <p class="text-sm font-medium text-[#f4e9d3]">Clean Bathrooms with Geyser</p>
-        </div>
-      </div>
-
-      <div class="rounded-lg overflow-hidden shadow-lg bg-white/10 backdrop-blur-sm border border-[#f4e9d3]/10">
-        <img src="https://via.placeholder.com/400x250" alt="Wardrobe & Storage" class="w-full h-64 object-cover" />
-        <div class="p-4 text-center border-t border-[#f4e9d3]/20">
-          <p class="text-sm font-medium text-[#f4e9d3]">Individual Wardrobes for Privacy</p>
-        </div>
-      </div>
-
-      <div class="rounded-lg overflow-hidden shadow-lg bg-white/10 backdrop-blur-sm border border-[#f4e9d3]/10">
-        <img src="https://via.placeholder.com/400x250" alt="Outdoor Relaxation Area" class="w-full h-64 object-cover" />
-        <div class="p-4 text-center border-t border-[#f4e9d3]/20">
-          <p class="text-sm font-medium text-[#f4e9d3]">Outdoor Braai & Relaxation Space</p>
-        </div>
-      </div>
-
-      <div class="rounded-lg overflow-hidden shadow-lg bg-white/10 backdrop-blur-sm border border-[#f4e9d3]/10">
-        <img src="https://via.placeholder.com/400x250" alt="Entrance" class="w-full h-64 object-cover" />
-        <div class="p-4 text-center border-t border-[#f4e9d3]/20">
-          <p class="text-sm font-medium text-[#f4e9d3]">Secure, Gated Entrance to Property</p>
-        </div>
+    <!-- Mobile Swiper -->
+    <div class="md:hidden">
+      <div class="swiper gallerySwiper">
+        <div class="swiper-wrapper" id="gallerySwiperWrapper"></div>
+        <div class="swiper-pagination mt-2"></div>
       </div>
     </div>
-
   </div>
 </section>
+
+<!-- JS: Render Gallery -->
+<script>
+  const galleryImages = [
+    { src: "https://via.placeholder.com/400x250", caption: "Spacious Bedroom with Study Desk" },
+    { src: "https://via.placeholder.com/400x250", caption: "Fully Equipped Shared Kitchen" },
+    { src: "https://via.placeholder.com/400x250", caption: "Modern Bathrooms with Geyser" },
+    { src: "https://via.placeholder.com/400x250", caption: "Outdoor Braai & Relaxation Space" },
+    { src: "https://via.placeholder.com/400x250", caption: "Secure, Gated Entrance" },
+    { src: "https://via.placeholder.com/400x250", caption: "Private Wardrobes & Storage" },
+    { src: "https://via.placeholder.com/400x250", caption: "Quiet Study Zones" },
+    { src: "https://via.placeholder.com/400x250", caption: "Cozy Common Lounge" },
+    { src: "https://via.placeholder.com/400x250", caption: "Neat Dining Area" },
+    { src: "https://via.placeholder.com/400x250", caption: "On-Site Laundry Facilities" },
+    { src: "https://via.placeholder.com/400x250", caption: "Ample Natural Light" },
+    { src: "https://via.placeholder.com/400x250", caption: "Beautiful Outdoor View" }
+  ];
+
+  const grid = document.getElementById("galleryGrid");
+  const swiperWrapper = document.getElementById("gallerySwiperWrapper");
+
+  galleryImages.forEach(({ src, caption }) => {
+    // Desktop grid item
+    const gridItem = document.createElement("div");
+    gridItem.className = "rounded-lg overflow-hidden shadow-lg bg-white/10 backdrop-blur-sm border border-[#f4e9d3]/10";
+    gridItem.innerHTML = `
+      <img src="${src}" alt="${caption}" loading="lazy" class="w-full h-64 object-cover" />
+      <div class="p-4 text-center border-t border-[#f4e9d3]/20">
+        <p class="text-sm font-medium text-[#f4e9d3]">${caption}</p>
+      </div>
+    `;
+    grid.appendChild(gridItem);
+
+    // Mobile swiper slide
+    const slide = document.createElement("div");
+    slide.className = "swiper-slide flex justify-center";
+    slide.innerHTML = `
+      <div class="rounded-lg overflow-hidden shadow-lg bg-white/10 backdrop-blur-sm border border-[#f4e9d3]/10 w-[85vw] max-w-sm">
+        <img src="${src}" alt="${caption}" loading="lazy" class="w-full h-56 object-cover" />
+        <div class="p-4 text-center border-t border-[#f4e9d3]/20">
+          <p class="text-sm font-medium text-[#f4e9d3]">${caption}</p>
+        </div>
+      </div>
+    `;
+    swiperWrapper.appendChild(slide);
+  });
+
+  new Swiper(".gallerySwiper", {
+    slidesPerView: 1.1,
+    spaceBetween: 8,
+    centeredSlides: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+  });
+</script>
+
+
 
 
 
 
 <!-- Booking Form -->
-<section id="booking" class="py-28 px-6 sm:px-10 lg:px-16 bg-[#fefbf6] text-dark font-body border-t border-primary/10">
-  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start lg:items-center h-full">
-
-
+<section class="pt-10 pb-4 sm:pb-6 md:pb-8 px-6 sm:px-10 lg:px-16 bg-[#fefbf6] text-dark font-body border-t border-primary/10">
+<div class="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-2 gap-16 justify-center min-h-screen">
+    
     <!-- Form Left -->
     <form id="bookingForm"
           onsubmit="handleFormSubmit(event)"
@@ -284,7 +308,7 @@
       <h2 class="text-3xl sm:text-4xl font-heading font-bold text-primary mb-4">
         Book Your Spot
       </h2>
-      
+
       <!-- Name -->
       <div>
         <label for="name" class="block font-semibold text-sm mb-2">Full Name</label>
@@ -332,40 +356,42 @@
       </button>
     </form>
 
-    <!-- Info Right -->
-<div class="flex flex-col justify-center h-full text-center lg:text-left">
-  <!-- Badge -->
-  <span class="inline-block uppercase tracking-wider text-xs font-semibold text-primary bg-primary/10 border border-primary px-4 py-1 rounded-full mb-5 self-center lg:self-start">
-    Ladies Only
-  </span>
+    <!-- Info Right (Desktop Only) -->
+    <div class="hidden lg:block">
+      <div class="flex flex-col justify-center h-full text-center lg:text-left">
+        <!-- Badge -->
+        <span class="inline-block uppercase tracking-wider text-xs font-semibold text-primary bg-primary/10 border border-primary px-4 py-1 rounded-full mb-5 self-center lg:self-start">
+          Ladies Only
+        </span>
 
-  <!-- Heading -->
-  <h3 class="text-4xl sm:text-5xl font-heading font-extrabold text-primary leading-tight tracking-tight mb-4">
-    A Clean, Secure Place to Call Home
-  </h3>
+        <!-- Heading -->
+        <h3 class="text-4xl sm:text-5xl font-heading font-extrabold text-primary leading-tight tracking-tight mb-4">
+          A Clean, Secure Place to Call Home
+        </h3>
 
-  <!-- Paragraph -->
-  <p class="text-base sm:text-lg text-dark/80 leading-relaxed mb-6">
-    Goshen Campus Oasis offers modern accommodation designed for young women. With 24/7 power, fast internet, and a peaceful environment, your success and safety come first.
-  </p>
+        <!-- Paragraph -->
+        <p class="text-base sm:text-lg text-dark/80 leading-relaxed mb-6">
+          Goshen Campus Oasis offers modern accommodation designed for young women. With 24/7 power, fast internet, and a peaceful environment, your success and safety come first.
+        </p>
 
- <!-- Image -->
-<div class="mt-6">
-  <img src="assets/images/rutendo-petros-qefUmV2BjHs-unsplash.jpg"
-       alt="Boarding House"
-       class="w-full max-w-md mx-auto rounded-lg shadow-md border border-primary/20" />
-</div>
+        <!-- Image -->
+        <div class="mt-6">
+          <img src="assets/images/rutendo-petros-qefUmV2BjHs-unsplash.jpg"
+               alt="Boarding House"
+               class="w-full max-w-md mx-auto rounded-lg shadow-md border border-primary/20" />
+        </div>
 
+        <!-- Note -->
+        <p class="mt-4 text-sm text-dark/60 text-center">
+          We’ll reach out via WhatsApp or email within 24 hours of your submission.
+        </p>
+      </div>
+    </div>
 
-
-  <!-- Note -->
-<p class="mt-4 text-sm text-dark/60 text-center">
-  We’ll reach out via WhatsApp or email within 24 hours of your submission.
-</p>
-
-</div>
-
+  </div>
 </section>
+
+
 
 
 <!-- Success Modal -->
@@ -444,13 +470,13 @@
 
 
 <!-- Footer -->
-<footer class="bg-[#1E1E1E] text-white pt-24 pb-16 px-6 font-body relative">
-  <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-start">
+<footer class="bg-[#1E1E1E] text-white pt-20 pb-12 px-6 font-body border-t border-white/5">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-start">
 
     <!-- Left Column -->
-    <div class="space-y-10 text-center md:text-left">
+    <div class="space-y-8 text-center md:text-left">
       <div>
-        <h3 class="text-4xl font-heading text-gold leading-tight">
+        <h3 class="text-4xl font-heading text-gold font-bold tracking-tight leading-snug">
           Goshen Campus Oasis
         </h3>
         <p class="text-base text-gray-400 mt-3 max-w-md mx-auto md:mx-0 leading-relaxed">
@@ -458,43 +484,42 @@
         </p>
       </div>
 
-      <ul class="space-y-3 text-base text-[#E5E5E5] leading-relaxed">
+      <ul class="space-y-3 text-sm sm:text-base text-[#E5E5E5] leading-relaxed">
         <li>
-          <strong class="text-white">WhatsApp:</strong>
+          <span class="text-white font-medium">WhatsApp:</span>
           <a href="https://wa.me/263773623441" class="underline hover:text-gold transition">+263773623441</a> /
           <a href="https://wa.me/263719870746" class="underline hover:text-gold transition">+263719870746</a>
         </li>
         <li>
-          <strong class="text-white">Address:</strong> 9293 Save Street, Chesvingo
+          <span class="text-white font-medium">Address:</span> 9293 Save Street, Chesvingo
         </li>
         <li>
-          <strong class="text-white">Hours:</strong> 8:00am – 6:00pm (Mon–Sat)
+          <span class="text-white font-medium">Hours:</span> 8:00am – 6:00pm (Mon–Sat)
         </li>
       </ul>
     </div>
 
     <!-- Right Column -->
-    <div class="space-y-10 text-center md:text-right">
+    <div class="space-y-8 text-center md:text-right">
 
       <!-- Social Icons -->
-      <div class="flex justify-center md:justify-end flex-wrap gap-6 text-gold text-sm">
-        <a href="https://www.facebook.com/profile.php?id=61578948534844" class="flex flex-col items-center hover:text-white transition">
-          <i data-lucide="facebook" class="w-6 h-6 mb-1"></i>
-          <span class="block sm:hidden">Facebook</span>
+      <div class="flex justify-center md:justify-end gap-6 text-gold text-sm">
+        <a href="https://www.facebook.com/profile.php?id=61578948534844" class="group flex flex-col items-center hover:text-white transition">
+          <i data-lucide="facebook" class="w-6 h-6 mb-1 group-hover:scale-110 transition-transform"></i>
+          <span class="block sm:hidden text-xs">Facebook</span>
         </a>
-        <a href="https://wa.me/263773623441" class="flex flex-col items-center hover:text-white transition">
-          <i data-lucide="phone" class="w-6 h-6 mb-1"></i>
-          <span class="block sm:hidden">WhatsApp</span>
+        <a href="https://wa.me/263773623441" class="group flex flex-col items-center hover:text-white transition">
+          <i data-lucide="phone" class="w-6 h-6 mb-1 group-hover:scale-110 transition-transform"></i>
+          <span class="block sm:hidden text-xs">WhatsApp</span>
         </a>
-        
       </div>
 
       <!-- QR Code -->
-      <div class="mt-4 flex flex-col items-center md:items-end">
+      <div class="flex flex-col items-center md:items-end">
         <img src="assets/images/QR.png"
              alt="QR Code to Goshen Links"
-             class="w-32 sm:w-36 object-cover rounded-md border border-gold shadow-xl" />
-        <p class="text-xs sm:text-sm text-gray-300 mt-2 font-semibold text-center md:text-right leading-tight">
+             class="w-32 sm:w-36 rounded-md border border-gold shadow-lg" />
+        <p class="text-xs sm:text-sm text-gray-300 mt-2 font-semibold leading-tight">
           Scan for Links
         </p>
       </div>
@@ -502,7 +527,7 @@
   </div>
 
   <!-- Bottom Strip -->
-  <div class="mt-16 border-t border-white/10 pt-6 text-center text-sm text-gray-500 tracking-wide">
+  <div class="mt-16 border-t border-white/10 pt-5 text-center text-sm text-gray-500 tracking-wide">
     © 2025 Goshen Campus Oasis &bull; Built with ❤️ for students of Masvingo &bull; Site by
     <a href="https://craytivo.com" target="_blank" class="text-gold underline hover:text-white transition">
       Craytivo
@@ -510,9 +535,7 @@
   </div>
 </footer>
 
-
-
-<!-- Lucide Icons Script -->
+<!-- Lucide Icons -->
 <script src="https://unpkg.com/lucide@latest" defer></script>
 <script>
   window.addEventListener('DOMContentLoaded', () => {
