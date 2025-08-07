@@ -213,23 +213,25 @@
         <img src="assets/images/goshen oasis logo - no bg.png" alt="Goshen Oasis Logo" class="h-8 w-auto" />
         <span class="hidden sm:block font-bold text-primary">Goshen Oasis</span>
       </div>
-      <div class="hidden md:flex gap-8 items-center">
-        <a href="#amenities" class="hover:text-primary transition-colors duration-300 font-medium">Amenities</a>
-        <a href="#gallery" class="hover:text-primary transition-colors duration-300 font-medium">Gallery</a>
-        <a href="#booking" class="bg-primary text-white px-6 py-2 rounded-xl hover:bg-secondary transition-all duration-300 font-bold">Book Now</a>
-      </div>
+             <div class="hidden md:flex gap-8 items-center">
+         <a href="#amenities" class="hover:text-primary transition-colors duration-300 font-medium">Amenities</a>
+         <a href="#video" class="hover:text-primary transition-colors duration-300 font-medium">Video</a>
+         <a href="#gallery" class="hover:text-primary transition-colors duration-300 font-medium">Gallery</a>
+         <a href="#booking" class="bg-primary text-white px-6 py-2 rounded-xl hover:bg-secondary transition-all duration-300 font-bold">Book Now</a>
+       </div>
       <button class="md:hidden" id="mobileMenuBtn">
         <i data-lucide="menu" class="w-6 h-6"></i>
       </button>
     </div>
-    <!-- Mobile Menu -->
-    <div class="md:hidden hidden bg-white border-t border-primary/10" id="mobileMenu">
-      <div class="px-6 py-4 space-y-4">
-        <a href="#amenities" class="block hover:text-primary transition-colors duration-300">Amenities</a>
-        <a href="#gallery" class="block hover:text-primary transition-colors duration-300">Gallery</a>
-        <a href="#booking" class="block bg-primary text-white px-4 py-2 rounded-lg text-center">Book Now</a>
-      </div>
-    </div>
+         <!-- Mobile Menu -->
+     <div class="md:hidden hidden bg-white border-t border-primary/10" id="mobileMenu">
+       <div class="px-6 py-4 space-y-4">
+         <a href="#amenities" class="block hover:text-primary transition-colors duration-300">Amenities</a>
+         <a href="#video" class="block hover:text-primary transition-colors duration-300">Video</a>
+         <a href="#gallery" class="block hover:text-primary transition-colors duration-300">Gallery</a>
+         <a href="#booking" class="block bg-primary text-white px-4 py-2 rounded-lg text-center">Book Now</a>
+       </div>
+     </div>
   </nav>
 
   <!-- Header -->
@@ -402,6 +404,40 @@
   <!-- Swiper CSS & JS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Video Section -->
+  <section id="video" class="py-32 px-6 bg-light text-dark font-body">
+    <div class="max-w-7xl mx-auto">
+      <!-- Heading -->
+      <div class="text-center mb-20">
+        <h2 class="text-5xl sm:text-6xl font-heading font-black mb-8">Experience Goshen Oasis</h2>
+        <p class="text-xl sm:text-2xl text-dark/80 max-w-4xl mx-auto leading-relaxed">
+          Take a virtual tour and see what makes our boarding house the perfect home for students.
+        </p>
+      </div>
+
+      <!-- Video Container -->
+      <div class="relative max-w-4xl mx-auto">
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+          <video 
+            class="w-full h-auto" 
+            controls 
+            poster="assets/images/rutendo-petros-qefUmV2BjHs-unsplash.jpg"
+            preload="metadata">
+            <source src="assets/images/video.mov" type="video/quicktime">
+            <source src="assets/images/video.mov" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        
+        <!-- Video Overlay Info -->
+        <div class="absolute bottom-6 left-6 right-6 bg-black/70 backdrop-blur-sm rounded-2xl p-6 text-white">
+          <h3 class="text-2xl font-bold mb-2">Welcome to Goshen Oasis</h3>
+          <p class="text-lg opacity-90">See our facilities, meet our community, and discover why students choose us.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Gallery Section -->
   <section id="gallery" class="py-32 px-6 bg-dark text-cream font-body overflow-hidden">
