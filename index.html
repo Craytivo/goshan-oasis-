@@ -71,7 +71,7 @@
   <style>
     html { 
       scroll-behavior: smooth; 
-      scroll-padding-top: 2rem;
+      scroll-padding-top: 6rem;
     }
     body {
       @apply bg-light text-dark font-body antialiased;
@@ -98,10 +98,140 @@
       transform: translateY(-8px);
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     }
+    
+    /* Loading States */
+    .loading {
+      position: relative;
+      overflow: hidden;
+    }
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: loading 1.5s infinite;
+    }
+    @keyframes loading {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    
+    /* Scroll Animations */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
+    }
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Progress Bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, #2f6639, #63361d);
+      z-index: 9999;
+      transition: width 0.3s ease;
+    }
+    
+    /* Floating WhatsApp Button */
+    .floating-whatsapp {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 1000;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+    
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    /* Form Validation Styles */
+    .form-input.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+    .form-input.success {
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+    .error-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+    
+    /* Loading Spinner */
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #2f6639;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 
 <body>
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+  
+  <!-- Sticky Navigation -->
+  <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-primary/10 transition-all duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <img src="assets/images/goshen oasis logo - no bg.png" alt="Goshen Oasis Logo" class="h-8 w-auto" />
+        <span class="hidden sm:block font-bold text-primary">Goshen Oasis</span>
+      </div>
+      <div class="hidden md:flex gap-8 items-center">
+        <a href="#amenities" class="hover:text-primary transition-colors duration-300 font-medium">Amenities</a>
+        <a href="#gallery" class="hover:text-primary transition-colors duration-300 font-medium">Gallery</a>
+        <a href="#booking" class="bg-primary text-white px-6 py-2 rounded-xl hover:bg-secondary transition-all duration-300 font-bold">Book Now</a>
+      </div>
+      <button class="md:hidden" id="mobileMenuBtn">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+    <!-- Mobile Menu -->
+    <div class="md:hidden hidden bg-white border-t border-primary/10" id="mobileMenu">
+      <div class="px-6 py-4 space-y-4">
+        <a href="#amenities" class="block hover:text-primary transition-colors duration-300">Amenities</a>
+        <a href="#gallery" class="block hover:text-primary transition-colors duration-300">Gallery</a>
+        <a href="#booking" class="block bg-primary text-white px-4 py-2 rounded-lg text-center">Book Now</a>
+      </div>
+    </div>
+  </nav>
+
   <!-- Header -->
   <header class="relative bg-gradient-to-br from-primary via-secondary to-dark text-white py-32 px-6 shadow-2xl overflow-hidden">
     <div class="absolute inset-0 bg-black/20"></div>
@@ -144,7 +274,7 @@
   </header>
 
   <!-- Amenities Section -->
-  <section class="py-32 px-6 sm:px-10 lg:px-16 bg-light text-dark font-body">
+  <section id="amenities" class="py-32 px-6 sm:px-10 lg:px-16 bg-light text-dark font-body">
     
     <!-- Section Header -->
     <div class="text-center mb-24 px-4 sm:px-6">
@@ -248,6 +378,7 @@
               24/7 access to power for lighting, device charging, and essential needs—even during outages.
             </p>
           </div>
+        
         </div>
       </div>
 
@@ -273,7 +404,7 @@
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <!-- Gallery Section -->
-  <section class="py-32 px-6 bg-dark text-cream font-body overflow-hidden">
+  <section id="gallery" class="py-32 px-6 bg-dark text-cream font-body overflow-hidden">
     <div class="max-w-7xl mx-auto">
       <!-- Heading -->
       <div class="text-center mb-20">
@@ -369,49 +500,54 @@
         <div>
           <label for="name" class="block font-bold text-base mb-3">Full Name</label>
           <input type="text" id="name" name="name" required
-                 class="w-full px-6 py-4 rounded-xl border-2 border-dark/20 bg-white shadow-sm focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-lg" 
+                 class="w-full px-6 py-4 rounded-xl border-2 border-dark/20 bg-white shadow-sm focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-lg form-input" 
                  placeholder="Enter your full name" />
+          <div class="error-message hidden" id="nameError"></div>
         </div>
 
         <!-- Email -->
         <div>
           <label for="email" class="block font-bold text-base mb-3">Email Address</label>
           <input type="email" id="email" name="email" required
-                 class="w-full px-6 py-4 rounded-xl border-2 border-dark/20 bg-white shadow-sm focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-lg"
+                 class="w-full px-6 py-4 rounded-xl border-2 border-dark/20 bg-white shadow-sm focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-lg form-input"
                  placeholder="your.email@example.com" />
+          <div class="error-message hidden" id="emailError"></div>
         </div>
 
         <!-- WhatsApp -->
         <div>
           <label for="phone" class="block font-bold text-base mb-3">WhatsApp Number</label>
           <input type="tel" id="phone" name="phone" required
-                 class="w-full px-6 py-4 rounded-xl border-2 border-dark/20 bg-white shadow-sm focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-lg"
+                 class="w-full px-6 py-4 rounded-xl border-2 border-dark/20 bg-white shadow-sm focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-lg form-input"
                  placeholder="+263 7X XXX XXXX" />
+          <div class="error-message hidden" id="phoneError"></div>
         </div>
 
         <!-- Room Preference -->
         <div>
           <label for="room" class="block font-bold text-base mb-3">Room Preference</label>
           <select id="room" name="room" required
-                  class="w-full px-6 py-4 rounded-xl border-2 border-dark/20 bg-white shadow-sm focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-lg">
+                  class="w-full px-6 py-4 rounded-xl border-2 border-dark/20 bg-white shadow-sm focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-lg form-input">
             <option value="" disabled selected>Select your preferred option</option>
             <option value="3-in-room">🛏️ 3 in a room – $80/month</option>
             <option value="2-in-room">🛌 2 in a room – $90/month</option>
           </select>
+          <div class="error-message hidden" id="roomError"></div>
         </div>
 
         <!-- Message -->
         <div>
           <label for="message" class="block font-bold text-base mb-3">Additional Info (optional)</label>
           <textarea id="message" name="message" rows="5"
-                    class="w-full px-6 py-4 rounded-xl border-2 border-dark/20 bg-white shadow-sm focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-lg resize-none"
+                    class="w-full px-6 py-4 rounded-xl border-2 border-dark/20 bg-white shadow-sm focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-lg resize-none form-input"
                     placeholder="Semester start date, allergies, special requests..."></textarea>
         </div>
 
         <!-- Submit -->
-        <button type="submit"
-                class="w-full bg-primary hover:bg-secondary text-white font-bold py-5 px-8 rounded-xl shadow-xl transition-all duration-300 transform hover:scale-105 text-lg">
-          Submit Booking Request
+        <button type="submit" id="submitBtn"
+                class="w-full bg-primary hover:bg-secondary text-white font-bold py-5 px-8 rounded-xl shadow-xl transition-all duration-300 transform hover:scale-105 text-lg flex items-center justify-center gap-3">
+          <span id="submitText">Submit Booking Request</span>
+          <div class="spinner hidden" id="submitSpinner"></div>
         </button>
       </form>
 
@@ -484,36 +620,248 @@
   </div>
 
   <script>
+    // Performance & Loading Improvements
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize all interactive elements
+      initProgressBar();
+      initScrollAnimations();
+      initMobileMenu();
+      initFormValidation();
+      initBackToTop();
+      initImageLazyLoading();
+    });
+
+    // Progress Bar
+    function initProgressBar() {
+      const progressBar = document.getElementById('progressBar');
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.body.offsetHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        progressBar.style.width = scrollPercent + '%';
+      });
+    }
+
+    // Scroll Animations
+    function initScrollAnimations() {
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, observerOptions);
+
+      // Add fade-in-up class to elements you want to animate
+      document.querySelectorAll('.card-hover, .amenities-card').forEach(el => {
+        el.classList.add('fade-in-up');
+        observer.observe(el);
+      });
+    }
+
+    // Mobile Menu
+    function initMobileMenu() {
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      // Close mobile menu when clicking on links
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+        });
+      });
+    }
+
+    // Form Validation
+    function initFormValidation() {
+      const form = document.getElementById('bookingForm');
+      const inputs = form.querySelectorAll('.form-input');
+      
+      inputs.forEach(input => {
+        input.addEventListener('blur', validateField);
+        input.addEventListener('input', clearError);
+      });
+    }
+
+    function validateField(e) {
+      const field = e.target;
+      const errorElement = document.getElementById(field.id + 'Error');
+      
+      // Clear previous errors
+      field.classList.remove('error', 'success');
+      errorElement.classList.add('hidden');
+      
+      // Validation rules
+      if (field.required && !field.value.trim()) {
+        showError(field, errorElement, 'This field is required');
+        return false;
+      }
+      
+      if (field.type === 'email' && field.value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(field.value)) {
+          showError(field, errorElement, 'Please enter a valid email address');
+          return false;
+        }
+      }
+      
+      if (field.type === 'tel' && field.value) {
+        const phoneRegex = /^\+?[\d\s\-\(\)]+$/;
+        if (!phoneRegex.test(field.value)) {
+          showError(field, errorElement, 'Please enter a valid phone number');
+          return false;
+        }
+      }
+      
+      // Show success state
+      if (field.value.trim()) {
+        field.classList.add('success');
+      }
+      
+      return true;
+    }
+
+    function showError(field, errorElement, message) {
+      field.classList.add('error');
+      errorElement.textContent = message;
+      errorElement.classList.remove('hidden');
+    }
+
+    function clearError(e) {
+      const field = e.target;
+      const errorElement = document.getElementById(field.id + 'Error');
+      field.classList.remove('error');
+      errorElement.classList.add('hidden');
+    }
+
+    // Back to Top Button
+    function initBackToTop() {
+      const backToTopBtn = document.getElementById('backToTop');
+      
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+          backToTopBtn.classList.add('visible');
+        } else {
+          backToTopBtn.classList.remove('visible');
+        }
+      });
+      
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+
+    // Image Lazy Loading
+    function initImageLazyLoading() {
+      const images = document.querySelectorAll('img[loading="lazy"]');
+      
+      if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              img.src = img.dataset.src || img.src;
+              img.classList.remove('loading');
+              observer.unobserve(img);
+            }
+          });
+        });
+        
+        images.forEach(img => {
+          img.classList.add('loading');
+          imageObserver.observe(img);
+        });
+      }
+    }
+
+    // Enhanced Form Submission
     function handleFormSubmit(event) {
       event.preventDefault();
 
-      // Get input values
-      const name = document.getElementById("name").value.trim();
-      const room = document.getElementById("room").value;
-      const roomLabel = {
-        "3-in-room": "🛏️ 3 in a room – $80/month",
-        "2-in-room": "🛌 2 in a room – $90/month"
-      }[room] || "your selected room";
+      // Validate all fields
+      const inputs = document.querySelectorAll('.form-input');
+      let isValid = true;
+      
+      inputs.forEach(input => {
+        if (!validateField({ target: input })) {
+          isValid = false;
+        }
+      });
 
-      // Customize message
-      const firstName = name.split(" ")[0] || "Friend";
+      if (!isValid) {
+        return;
+      }
 
-      // Update modal content
-      document.getElementById("modalTitle").textContent = `🎉 Thanks, ${firstName}!`;
-      document.getElementById("modalMessage").textContent =
-        `We've received your booking for ${roomLabel}.\n\n📬 We'll message you on WhatsApp or email within 24 hours.`;
+      // Show loading state
+      const submitBtn = document.getElementById('submitBtn');
+      const submitText = document.getElementById('submitText');
+      const submitSpinner = document.getElementById('submitSpinner');
+      
+      submitBtn.disabled = true;
+      submitText.textContent = 'Submitting...';
+      submitSpinner.classList.remove('hidden');
 
-      // Show modal
-      document.getElementById("successModal").classList.remove("hidden");
+      // Simulate API call
+      setTimeout(() => {
+        // Get input values
+        const name = document.getElementById("name").value.trim();
+        const room = document.getElementById("room").value;
+        const roomLabel = {
+          "3-in-room": "🛏️ 3 in a room – $80/month",
+          "2-in-room": "🛌 2 in a room – $90/month"
+        }[room] || "your selected room";
 
-      // Reset form
-      document.getElementById("bookingForm").reset();
+        // Customize message
+        const firstName = name.split(" ")[0] || "Friend";
+
+        // Update modal content
+        document.getElementById("modalTitle").textContent = `🎉 Thanks, ${firstName}!`;
+        document.getElementById("modalMessage").textContent =
+          `We've received your booking for ${roomLabel}.\n\n📬 We'll message you on WhatsApp or email within 24 hours.`;
+
+        // Show modal
+        document.getElementById("successModal").classList.remove("hidden");
+
+        // Reset form and button
+        document.getElementById("bookingForm").reset();
+        submitBtn.disabled = false;
+        submitText.textContent = 'Submit Booking Request';
+        submitSpinner.classList.add('hidden');
+        
+        // Clear all form states
+        document.querySelectorAll('.form-input').forEach(input => {
+          input.classList.remove('success', 'error');
+        });
+      }, 2000);
     }
 
     function closeSuccessModal() {
       document.getElementById("successModal").classList.add("hidden");
     }
   </script>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/+263719870746?text=Hi%20Goshen%2C%20I'm%20interested%20in%20boarding" 
+     class="floating-whatsapp bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-all duration-300 transform hover:scale-110">
+    <i data-lucide="message-circle" class="w-6 h-6"></i>
+  </a>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top bg-primary text-white p-4 rounded-full shadow-2xl hover:bg-secondary transition-all duration-300 transform hover:scale-110" id="backToTop">
+    <i data-lucide="arrow-up" class="w-6 h-6"></i>
+  </button>
 
   <!-- Footer -->
   <footer class="bg-dark text-white pt-24 pb-16 px-6 font-body border-t border-white/10">
