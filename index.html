@@ -5,16 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Goshen Campus Oasis | Masvingo Boarding</title>
   <meta name="description" content="Affordable and secure student accommodation near Masvingo University. Fast WiFi, solar backup, clean facilities. Starting at $80/month." />
-  <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
   <link rel="icon" href="assets/images/favicon-32x32.png" type="image/png">
-  <script src="https://unpkg.com/lucide@latest" defer></script>
-
-  <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      lucide.createIcons();
-    });
-  </script>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
@@ -69,17 +61,27 @@
 
   <!-- Base Styles -->
   <style>
-    html { 
-      scroll-behavior: smooth; 
-      scroll-padding-top: 6rem;
-    }
+    /* Hard reset to prevent horizontal scroll anywhere */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
+    html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+
+    /* Replace Tailwind @apply with plain CSS for CDN usage */
     body {
-      @apply bg-light text-dark font-body antialiased;
+      background-color: #fefbf6; /* light */
+      color: #1c2a21;           /* dark */
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     h1, h2, h3, h4, h5, h6 {
-      @apply font-heading;
+      font-family: Merriweather, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     }
+
+    /* Media cannot exceed viewport */
+    img, video { max-width: 100%; height: auto; display: block; }
+
     .gradient-text {
       background: linear-gradient(135deg, #2f6639 0%, #63361d 100%);
       -webkit-background-clip: text;
@@ -98,56 +100,32 @@
       transform: translateY(-8px);
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     }
-    
+
     /* Loading States */
-    .loading {
-      position: relative;
-      overflow: hidden;
-    }
+    .loading { position: relative; overflow: hidden; }
     .loading::after {
       content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
+      position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
       animation: loading 1.5s infinite;
     }
-    @keyframes loading {
-      0% { left: -100%; }
-      100% { left: 100%; }
-    }
-    
+    @keyframes loading { 0% { left: -100%; } 100% { left: 100%; } }
+
     /* Scroll Animations */
-    .fade-in-up {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.6s ease-out;
-    }
-    .fade-in-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
+    .fade-in-up { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }
+    .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
     /* Progress Bar */
     .progress-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 3px;
+      position: fixed; top: 0; left: 0; width: 0%; height: 3px;
       background: linear-gradient(90deg, #2f6639, #63361d);
-      z-index: 9999;
-      transition: width 0.3s ease;
+      z-index: 9999; transition: width 0.3s ease;
     }
-    
+
     /* Floating WhatsApp Button */
     .floating-whatsapp {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      z-index: 1000;
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 1000;
       animation: bounce 2s infinite;
     }
     @keyframes bounce {
@@ -155,57 +133,35 @@
       40% { transform: translateY(-10px); }
       60% { transform: translateY(-5px); }
     }
-    
+
     /* Back to Top Button */
     .back-to-top {
-      position: fixed;
-      bottom: 2rem;
-      left: 2rem;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
+      position: fixed; bottom: 2rem; left: 2rem; z-index: 1000;
+      opacity: 0; visibility: hidden; transition: all 0.3s ease;
     }
-    .back-to-top.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-    
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+
     /* Form Validation Styles */
-    .form-input.error {
-      border-color: #ef4444;
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-    }
-    .form-input.success {
-      border-color: #10b981;
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-    }
-    .error-message {
-      color: #ef4444;
-      font-size: 0.875rem;
-      margin-top: 0.5rem;
-    }
-    
+    .form-input.error { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1); }
+    .form-input.success { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+    .error-message { color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem; }
+
     /* Loading Spinner */
     .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2px solid #f3f3f3;
-      border-top: 2px solid #2f6639;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
+      width: 20px; height: 20px; border: 2px solid #f3f3f3; border-top: 2px solid #2f6639;
+      border-radius: 50%; animation: spin 1s linear infinite;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* Ensure Swiper never leaks width */
+    .swiper { overflow: hidden; }
   </style>
 </head>
 
-<body>
+<body class="bg-light text-dark font-body antialiased overflow-x-hidden">
   <!-- Progress Bar -->
   <div class="progress-bar" id="progressBar"></div>
-  
+
   <!-- Sticky Navigation -->
   <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-primary/10 transition-all duration-300" id="navbar">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -213,34 +169,34 @@
         <img src="assets/images/goshen oasis logo - no bg.png" alt="Goshen Oasis Logo" class="h-8 w-auto" />
         <span class="hidden sm:block font-bold text-primary">Goshen Oasis</span>
       </div>
-             <div class="hidden md:flex gap-8 items-center">
-         <a href="#amenities" class="hover:text-primary transition-colors duration-300 font-medium">Amenities</a>
-         <a href="#video" class="hover:text-primary transition-colors duration-300 font-medium">Video</a>
-         <a href="#gallery" class="hover:text-primary transition-colors duration-300 font-medium">Gallery</a>
-         <a href="#booking" class="bg-primary text-white px-6 py-2 rounded-xl hover:bg-secondary transition-all duration-300 font-bold">Book Now</a>
-       </div>
-      <button class="md:hidden" id="mobileMenuBtn">
+      <div class="hidden md:flex gap-8 items-center">
+        <a href="#amenities" class="hover:text-primary transition-colors duration-300 font-medium">Amenities</a>
+        <a href="#video" class="hover:text-primary transition-colors duration-300 font-medium">Video</a>
+        <a href="#gallery" class="hover:text-primary transition-colors duration-300 font-medium">Gallery</a>
+        <a href="#booking" class="bg-primary text-white px-6 py-2 rounded-xl hover:bg-secondary transition-all duration-300 font-bold">Book Now</a>
+      </div>
+      <button class="md:hidden" id="mobileMenuBtn" aria-label="Toggle menu">
         <i data-lucide="menu" class="w-6 h-6"></i>
       </button>
     </div>
-         <!-- Mobile Menu -->
-     <div class="md:hidden hidden bg-white border-t border-primary/10" id="mobileMenu">
-       <div class="px-6 py-4 space-y-4">
-         <a href="#amenities" class="block hover:text-primary transition-colors duration-300">Amenities</a>
-         <a href="#video" class="block hover:text-primary transition-colors duration-300">Video</a>
-         <a href="#gallery" class="block hover:text-primary transition-colors duration-300">Gallery</a>
-         <a href="#booking" class="block bg-primary text-white px-4 py-2 rounded-lg text-center">Book Now</a>
-       </div>
-     </div>
+    <!-- Mobile Menu -->
+    <div class="md:hidden hidden bg-white border-t border-primary/10" id="mobileMenu">
+      <div class="px-6 py-4 space-y-4">
+        <a href="#amenities" class="block hover:text-primary transition-colors duration-300">Amenities</a>
+        <a href="#video" class="block hover:text-primary transition-colors duration-300">Video</a>
+        <a href="#gallery" class="block hover:text-primary transition-colors duration-300">Gallery</a>
+        <a href="#booking" class="block bg-primary text-white px-4 py-2 rounded-lg text-center">Book Now</a>
+      </div>
+    </div>
   </nav>
 
   <!-- Header -->
   <header class="relative bg-gradient-to-br from-primary via-secondary to-dark text-white py-32 px-6 shadow-2xl overflow-hidden">
     <div class="absolute inset-0 bg-black/20"></div>
     <div class="max-w-7xl mx-auto text-center relative z-10">
-      
+
       <!-- Glassmorphism Logo Card -->
-      <div class="mx-auto mb-12 w-fit px-8 py-6 rounded-2xl shadow-2xl animate-float" 
+      <div class="mx-auto mb-12 w-fit px-8 py-6 rounded-2xl shadow-2xl animate-float"
            style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 2px solid rgba(255, 255, 255, 0.3);">
         <img src="assets/images/goshen oasis logo - no bg.png" alt="Goshen Oasis Logo"
              class="w-28 sm:w-36 md:w-40 h-auto mx-auto drop-shadow-xl" />
@@ -253,16 +209,16 @@
 
       <!-- Hero Heading -->
       <h1 class="text-5xl sm:text-6xl md:text-7xl font-heading font-black leading-tight mb-8 text-cream animate-fade-in">
-        Safe. Stylish. 
+        Safe. Stylish.
         <span class="gradient-text">Student Living.</span>
       </h1>
 
       <!-- Subheading -->
       <p class="text-xl sm:text-2xl max-w-4xl mx-auto mb-12 font-body text-cream/95 leading-relaxed animate-slide-up">
-        At <strong class="text-gold font-semibold">Goshen Oasis</strong>, your safety comes first. 
-        <strong class="text-gold font-semibold">Feel protected in our secure, gated ladies-only residence</strong> 
-        just minutes from Great Zimbabwe University - Masvingo. Enjoy peace of mind with furnished rooms, 
-        solar power, and Starlink WiFi — your home away from home from just 
+        At <strong class="text-gold font-semibold">Goshen Oasis</strong>, your safety comes first.
+        <strong class="text-gold font-semibold">Feel protected in our secure, gated ladies-only residence</strong>
+        just minutes from Great Zimbabwe University - Masvingo. Enjoy peace of mind with furnished rooms,
+        solar power, and Starlink WiFi — your home away from home from just
         <strong class="text-gold font-bold text-2xl">$80/month</strong>.
       </p>
 
@@ -277,28 +233,22 @@
 
   <!-- Amenities Section -->
   <section id="amenities" class="py-32 px-6 sm:px-10 lg:px-16 bg-light text-dark font-body">
-    
-    <!-- Section Header -->
     <div class="text-center mb-24 px-4 sm:px-6">
-      <!-- Badge -->
       <span class="inline-block uppercase tracking-wider text-xs font-bold text-primary bg-primary/10 border-2 border-primary px-6 py-2 rounded-full shadow-lg mb-8">
         👩‍🎓 Ladies Only
       </span>
 
-      <!-- Heading -->
       <h2 class="text-5xl sm:text-6xl lg:text-7xl font-heading font-black text-primary leading-tight tracking-tight max-w-5xl mx-auto mb-8">
-        Clean, Secure & Purpose-Built for 
+        Clean, Secure & Purpose-Built for
         <span class="gradient-text">Student Success</span>
       </h2>
 
-      <!-- Subheading -->
       <p class="text-xl sm:text-2xl text-dark/80 max-w-3xl mx-auto leading-relaxed mb-12">
         A newly built boarding home offering safe, modern living designed for young women to thrive.
       </p>
 
-      <!-- CTA Button -->
       <div class="mb-16">
-        <a href="#booking" 
+        <a href="#booking"
            class="inline-flex items-center gap-2 bg-primary text-white text-lg font-bold px-8 py-4 rounded-xl shadow-lg hover:bg-secondary transition-all duration-300 transform hover:scale-105">
           <i data-lucide="calendar" class="w-5 h-5"></i>
           Book a Visit
@@ -306,9 +256,8 @@
       </div>
     </div>
 
-    <!-- Amenities Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-      <!-- Card 1 -->
+      <!-- Cards -->
       <div class="bg-white rounded-2xl p-8 shadow-xl card-hover border border-primary/10">
         <div class="flex gap-6 items-start">
           <div class="bg-primary/10 p-4 rounded-xl">
@@ -316,14 +265,11 @@
           </div>
           <div>
             <h3 class="text-xl font-bold mb-3 text-primary">Top Quality Facilities</h3>
-            <p class="text-dark/80 leading-relaxed">
-              Spacious bedrooms, clean bathrooms, shared kitchen, and a cozy lounge for winding down.
-            </p>
+            <p class="text-dark/80 leading-relaxed">Spacious bedrooms, clean bathrooms, shared kitchen, and a cozy lounge for winding down.</p>
           </div>
         </div>
       </div>
 
-      <!-- Card 2 -->
       <div class="bg-white rounded-2xl p-8 shadow-xl card-hover border border-primary/10">
         <div class="flex gap-6 items-start">
           <div class="bg-primary/10 p-4 rounded-xl">
@@ -331,14 +277,11 @@
           </div>
           <div>
             <h3 class="text-xl font-bold mb-3 text-primary">Study-Friendly Rooms</h3>
-            <p class="text-dark/80 leading-relaxed">
-              Each room includes a personal desk, perfect for focused study and productivity.
-            </p>
+            <p class="text-dark/80 leading-relaxed">Each room includes a personal desk, perfect for focused study and productivity.</p>
           </div>
         </div>
       </div>
 
-      <!-- Card 3 -->
       <div class="bg-white rounded-2xl p-8 shadow-xl card-hover border border-primary/10">
         <div class="flex gap-6 items-start">
           <div class="bg-primary/10 p-4 rounded-xl">
@@ -346,14 +289,11 @@
           </div>
           <div>
             <h3 class="text-xl font-bold mb-3 text-primary">Private Storage</h3>
-            <p class="text-dark/80 leading-relaxed">
-              Individual wardrobes provide ample space and a sense of personal organization.
-            </p>
+            <p class="text-dark/80 leading-relaxed">Individual wardrobes provide ample space and a sense of personal organization.</p>
           </div>
         </div>
       </div>
 
-      <!-- Card 4 -->
       <div class="bg-white rounded-2xl p-8 shadow-xl card-hover border border-primary/10">
         <div class="flex gap-6 items-start">
           <div class="bg-primary/10 p-4 rounded-xl">
@@ -361,14 +301,11 @@
           </div>
           <div>
             <h3 class="text-xl font-bold mb-3 text-primary">High-Speed Internet</h3>
-            <p class="text-dark/80 leading-relaxed">
-              Unlimited Starlink-powered WiFi ensures fast, reliable connection for studies and streaming.
-            </p>
+            <p class="text-dark/80 leading-relaxed">Unlimited Starlink-powered WiFi ensures fast, reliable connection for studies and streaming.</p>
           </div>
         </div>
       </div>
 
-      <!-- Card 5 -->
       <div class="bg-white rounded-2xl p-8 shadow-xl card-hover border border-primary/10">
         <div class="flex gap-6 items-start">
           <div class="bg-primary/10 p-4 rounded-xl">
@@ -376,15 +313,11 @@
           </div>
           <div>
             <h3 class="text-xl font-bold mb-3 text-primary">Solar & ZESA Backup</h3>
-            <p class="text-dark/80 leading-relaxed">
-              24/7 access to power for lighting, device charging, and essential needs—even during outages.
-            </p>
+            <p class="text-dark/80 leading-relaxed">24/7 access to power for lighting, device charging, and essential needs—even during outages.</p>
           </div>
-        
         </div>
       </div>
 
-      <!-- Card 6 -->
       <div class="bg-white rounded-2xl p-8 shadow-xl card-hover border border-primary/10">
         <div class="flex gap-6 items-start">
           <div class="bg-primary/10 p-4 rounded-xl">
@@ -392,9 +325,7 @@
           </div>
           <div>
             <h3 class="text-xl font-bold mb-3 text-primary">Outdoor Comfort</h3>
-            <p class="text-dark/80 leading-relaxed">
-              A peaceful garden space ideal for taking breaks, socializing, or hosting Braai weekends.
-            </p>
+            <p class="text-dark/80 leading-relaxed">A peaceful garden space ideal for taking breaks, socializing, or hosting Braai weekends.</p>
           </div>
         </div>
       </div>
@@ -408,7 +339,6 @@
   <!-- Video Section -->
   <section id="video" class="py-32 px-6 bg-light text-dark font-body">
     <div class="max-w-7xl mx-auto">
-      <!-- Heading -->
       <div class="text-center mb-20">
         <h2 class="text-5xl sm:text-6xl font-heading font-black mb-8">Experience Goshen Oasis</h2>
         <p class="text-xl sm:text-2xl text-dark/80 max-w-4xl mx-auto leading-relaxed">
@@ -416,12 +346,11 @@
         </p>
       </div>
 
-      <!-- Video Container -->
       <div class="relative max-w-4xl mx-auto">
         <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
-          <video 
-            class="w-full h-auto" 
-            controls 
+          <video
+            class="w-full h-auto"
+            controls
             poster="assets/images/rutendo-petros-qefUmV2BjHs-unsplash.jpg"
             preload="metadata">
             <source src="assets/images/video.mov" type="video/quicktime">
@@ -429,8 +358,7 @@
             Your browser does not support the video tag.
           </video>
         </div>
-        
-        <!-- Video Overlay Info -->
+
         <div class="absolute bottom-6 left-6 right-6 bg-black/70 backdrop-blur-sm rounded-2xl p-6 text-white">
           <h3 class="text-2xl font-bold mb-2">Welcome to Goshen Oasis</h3>
           <p class="text-lg opacity-90">See our facilities, meet our community, and discover why students choose us.</p>
@@ -442,7 +370,6 @@
   <!-- Gallery Section -->
   <section id="gallery" class="py-32 px-6 bg-dark text-cream font-body overflow-hidden">
     <div class="max-w-7xl mx-auto">
-      <!-- Heading -->
       <div class="text-center mb-20">
         <h2 class="text-5xl sm:text-6xl font-heading font-black mb-8">Take a Look Inside</h2>
         <p class="text-xl sm:text-2xl text-cream/90 max-w-4xl mx-auto leading-relaxed">
@@ -454,7 +381,7 @@
       <div id="galleryGrid" class="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-8"></div>
 
       <!-- Mobile Swiper -->
-      <div class="md:hidden">
+      <div class="md:hidden overflow-hidden">
         <div class="swiper gallerySwiper">
           <div class="swiper-wrapper" id="gallerySwiperWrapper"></div>
           <div class="swiper-pagination mt-8"></div>
@@ -497,7 +424,7 @@
       slide.innerHTML = `
         <div class="rounded-2xl overflow-hidden shadow-2xl bg-white/10 backdrop-blur-sm border border-cream/20 w-[90vw] max-w-sm card-hover">
           <img src="${src}" alt="${caption}" loading="lazy" class="w-full h-72 object-cover" />
-          <div class="p-6 text-center border-t border-cream/20">
+          <div class="p-6 text-center border-cream/20 border-t">
             <p class="text-lg font-semibold text-cream">${caption}</p>
           </div>
         </div>
@@ -509,39 +436,28 @@
       slidesPerView: 1.1,
       spaceBetween: 16,
       centeredSlides: true,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
+      pagination: { el: ".swiper-pagination", clickable: true },
     });
   </script>
 
   <!-- Booking Form -->
   <section id="booking" class="py-32 px-6 sm:px-10 lg:px-16 bg-light text-dark font-body">
     <div class="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-2 gap-20 justify-center">
-      
-      <!-- Form Left -->
-      <form id="bookingForm"
-            onsubmit="handleFormSubmit(event)"
+      <form id="bookingForm" onsubmit="handleFormSubmit(event)"
             class="bg-white p-10 rounded-3xl shadow-2xl border border-primary/10 space-y-8 w-full">
-        
         <div class="text-center mb-8">
-          <h2 class="text-4xl sm:text-5xl font-heading font-black text-primary mb-4">
-            Book Your Spot
-          </h2>
+          <h2 class="text-4xl sm:text-5xl font-heading font-black text-primary mb-4">Book Your Spot</h2>
           <p class="text-lg text-dark/70">Secure your place at Goshen Oasis today</p>
         </div>
 
-        <!-- Name -->
         <div>
           <label for="name" class="block font-bold text-base mb-3">Full Name</label>
           <input type="text" id="name" name="name" required
-                 class="w-full px-6 py-4 rounded-xl border-2 border-dark/20 bg-white shadow-sm focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-lg form-input" 
+                 class="w-full px-6 py-4 rounded-xl border-2 border-dark/20 bg-white shadow-sm focus:ring-4 focus:ring-primary/20 focus:border-primary outline-none transition-all duration-300 text-lg form-input"
                  placeholder="Enter your full name" />
           <div class="error-message hidden" id="nameError"></div>
         </div>
 
-        <!-- Email -->
         <div>
           <label for="email" class="block font-bold text-base mb-3">Email Address</label>
           <input type="email" id="email" name="email" required
@@ -550,7 +466,6 @@
           <div class="error-message hidden" id="emailError"></div>
         </div>
 
-        <!-- WhatsApp -->
         <div>
           <label for="phone" class="block font-bold text-base mb-3">WhatsApp Number</label>
           <input type="tel" id="phone" name="phone" required
@@ -559,7 +474,6 @@
           <div class="error-message hidden" id="phoneError"></div>
         </div>
 
-        <!-- Room Preference -->
         <div>
           <label for="room" class="block font-bold text-base mb-3">Room Preference</label>
           <select id="room" name="room" required
@@ -571,7 +485,6 @@
           <div class="error-message hidden" id="roomError"></div>
         </div>
 
-        <!-- Message -->
         <div>
           <label for="message" class="block font-bold text-base mb-3">Additional Info (optional)</label>
           <textarea id="message" name="message" rows="5"
@@ -579,7 +492,6 @@
                     placeholder="Semester start date, allergies, special requests..."></textarea>
         </div>
 
-        <!-- Submit -->
         <button type="submit" id="submitBtn"
                 class="w-full bg-primary hover:bg-secondary text-white font-bold py-5 px-8 rounded-xl shadow-xl transition-all duration-300 transform hover:scale-105 text-lg flex items-center justify-center gap-3">
           <span id="submitText">Submit Booking Request</span>
@@ -587,34 +499,28 @@
         </button>
       </form>
 
-      <!-- Info Right (Desktop Only) -->
       <div class="hidden lg:block">
         <div class="flex flex-col justify-center h-full text-center lg:text-left">
-          <!-- Badge -->
           <span class="inline-block uppercase tracking-wider text-xs font-bold text-primary bg-primary/10 border-2 border-primary px-6 py-2 rounded-full mb-8 self-center lg:self-start">
             👩‍🎓 Ladies Only
           </span>
 
-          <!-- Heading -->
           <h3 class="text-5xl sm:text-6xl font-heading font-black text-primary leading-tight tracking-tight mb-8">
-            A Clean, Secure Place to 
+            A Clean, Secure Place to
             <span class="gradient-text">Call Home</span>
           </h3>
 
-          <!-- Paragraph -->
           <p class="text-xl text-dark/80 leading-relaxed mb-12">
-            Goshen Campus Oasis offers modern accommodation designed for young women. With 24/7 power, 
+            Goshen Campus Oasis offers modern accommodation designed for young women. With 24/7 power,
             fast internet, and a peaceful environment, your success and safety come first.
           </p>
 
-          <!-- Image -->
           <div class="mt-8">
             <img src="assets/images/rutendo-petros-qefUmV2BjHs-unsplash.jpg"
                  alt="Boarding House"
                  class="w-full max-w-lg mx-auto rounded-2xl shadow-2xl border-4 border-primary/20" />
           </div>
 
-          <!-- Note -->
           <p class="mt-8 text-lg text-dark/60 text-center">
             We'll reach out via WhatsApp or email within 24 hours of your submission.
           </p>
@@ -624,32 +530,21 @@
   </section>
 
   <!-- Success Modal -->
-  <div id="successModal"
-       class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4">
-    
+  <div id="successModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4">
     <div class="bg-white/95 backdrop-blur-md border-2 border-primary/20 shadow-2xl rounded-3xl p-10 w-full max-w-lg text-center relative animate-fade-in">
-      
-      <button onclick="closeSuccessModal()" 
-              class="absolute top-4 right-6 text-dark hover:text-primary text-2xl font-bold">
+      <button onclick="closeSuccessModal()" class="absolute top-4 right-6 text-dark hover:text-primary text-2xl font-bold" aria-label="Close modal">
         &times;
       </button>
-      
       <div class="mb-6">
         <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
           <i data-lucide="check" class="text-primary w-8 h-8"></i>
         </div>
       </div>
-      
-      <h3 id="modalTitle" class="text-3xl font-heading font-bold text-primary mb-4">
-        Thank you!
-      </h3>
-      
+      <h3 id="modalTitle" class="text-3xl font-heading font-bold text-primary mb-4">Thank you!</h3>
       <p id="modalMessage" class="whitespace-pre-line text-dark/80 text-lg mb-8 leading-relaxed">
         Your booking has been submitted.
       </p>
-
-      <button onclick="closeSuccessModal()" 
-              class="bg-primary hover:bg-secondary text-white font-bold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105">
+      <button onclick="closeSuccessModal()" class="bg-primary hover:bg-secondary text-white font-bold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105">
         Close
       </button>
     </div>
@@ -658,13 +553,14 @@
   <script>
     // Performance & Loading Improvements
     document.addEventListener('DOMContentLoaded', function() {
-      // Initialize all interactive elements
       initProgressBar();
       initScrollAnimations();
       initMobileMenu();
       initFormValidation();
       initBackToTop();
       initImageLazyLoading();
+      // Initialize lucide icons
+      if (window.lucide && lucide.createIcons) lucide.createIcons();
     });
 
     // Progress Bar
@@ -673,27 +569,17 @@
       window.addEventListener('scroll', () => {
         const scrollTop = window.pageYOffset;
         const docHeight = document.body.offsetHeight - window.innerHeight;
-        const scrollPercent = (scrollTop / docHeight) * 100;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
         progressBar.style.width = scrollPercent + '%';
       });
     }
 
     // Scroll Animations
     function initScrollAnimations() {
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      };
-
+      const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
       }, observerOptions);
-
-      // Add fade-in-up class to elements you want to animate
       document.querySelectorAll('.card-hover, .amenities-card').forEach(el => {
         el.classList.add('fade-in-up');
         observer.observe(el);
@@ -704,211 +590,126 @@
     function initMobileMenu() {
       const mobileMenuBtn = document.getElementById('mobileMenuBtn');
       const mobileMenu = document.getElementById('mobileMenu');
-      
-      mobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
-
-      // Close mobile menu when clicking on links
-      mobileMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          mobileMenu.classList.add('hidden');
-        });
-      });
+      mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+      mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
     }
 
     // Form Validation
     function initFormValidation() {
       const form = document.getElementById('bookingForm');
       const inputs = form.querySelectorAll('.form-input');
-      
       inputs.forEach(input => {
         input.addEventListener('blur', validateField);
         input.addEventListener('input', clearError);
       });
     }
-
     function validateField(e) {
       const field = e.target;
       const errorElement = document.getElementById(field.id + 'Error');
-      
-      // Clear previous errors
       field.classList.remove('error', 'success');
       errorElement.classList.add('hidden');
-      
-      // Validation rules
       if (field.required && !field.value.trim()) {
-        showError(field, errorElement, 'This field is required');
-        return false;
+        showError(field, errorElement, 'This field is required'); return false;
       }
-      
       if (field.type === 'email' && field.value) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(field.value)) {
-          showError(field, errorElement, 'Please enter a valid email address');
-          return false;
-        }
+        if (!emailRegex.test(field.value)) { showError(field, errorElement, 'Please enter a valid email address'); return false; }
       }
-      
       if (field.type === 'tel' && field.value) {
         const phoneRegex = /^\+?[\d\s\-\(\)]+$/;
-        if (!phoneRegex.test(field.value)) {
-          showError(field, errorElement, 'Please enter a valid phone number');
-          return false;
-        }
+        if (!phoneRegex.test(field.value)) { showError(field, errorElement, 'Please enter a valid phone number'); return false; }
       }
-      
-      // Show success state
-      if (field.value.trim()) {
-        field.classList.add('success');
-      }
-      
+      if (field.value.trim()) field.classList.add('success');
       return true;
     }
-
     function showError(field, errorElement, message) {
-      field.classList.add('error');
-      errorElement.textContent = message;
-      errorElement.classList.remove('hidden');
+      field.classList.add('error'); errorElement.textContent = message; errorElement.classList.remove('hidden');
     }
-
     function clearError(e) {
-      const field = e.target;
-      const errorElement = document.getElementById(field.id + 'Error');
-      field.classList.remove('error');
-      errorElement.classList.add('hidden');
+      const field = e.target; const errorElement = document.getElementById(field.id + 'Error');
+      field.classList.remove('error'); errorElement.classList.add('hidden');
     }
 
     // Back to Top Button
     function initBackToTop() {
       const backToTopBtn = document.getElementById('backToTop');
-      
       window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-          backToTopBtn.classList.add('visible');
-        } else {
-          backToTopBtn.classList.remove('visible');
-        }
+        if (window.pageYOffset > 300) backToTopBtn.classList.add('visible');
+        else backToTopBtn.classList.remove('visible');
       });
-      
-      backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      });
+      backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
 
     // Image Lazy Loading
     function initImageLazyLoading() {
       const images = document.querySelectorAll('img[loading="lazy"]');
-      
       if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries, observer) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               const img = entry.target;
-              img.src = img.dataset.src || img.src;
+              img.src = img.dataset?.src || img.src;
               img.classList.remove('loading');
               observer.unobserve(img);
             }
           });
         });
-        
-        images.forEach(img => {
-          img.classList.add('loading');
-          imageObserver.observe(img);
-        });
+        images.forEach(img => { img.classList.add('loading'); imageObserver.observe(img); });
       }
     }
 
     // Enhanced Form Submission
     function handleFormSubmit(event) {
       event.preventDefault();
-
-      // Validate all fields
       const inputs = document.querySelectorAll('.form-input');
       let isValid = true;
-      
-      inputs.forEach(input => {
-        if (!validateField({ target: input })) {
-          isValid = false;
-        }
-      });
+      inputs.forEach(input => { if (!validateField({ target: input })) isValid = false; });
+      if (!isValid) return;
 
-      if (!isValid) {
-        return;
-      }
-
-      // Show loading state
       const submitBtn = document.getElementById('submitBtn');
       const submitText = document.getElementById('submitText');
       const submitSpinner = document.getElementById('submitSpinner');
-      
-      submitBtn.disabled = true;
-      submitText.textContent = 'Submitting...';
-      submitSpinner.classList.remove('hidden');
+      submitBtn.disabled = true; submitText.textContent = 'Submitting...'; submitSpinner.classList.remove('hidden');
 
-      // Simulate API call
       setTimeout(() => {
-        // Get input values
         const name = document.getElementById("name").value.trim();
         const room = document.getElementById("room").value;
         const roomLabel = {
           "3-in-room": "🛏️ 3 in a room – $80/month",
           "2-in-room": "🛌 2 in a room – $90/month"
         }[room] || "your selected room";
-
-        // Customize message
         const firstName = name.split(" ")[0] || "Friend";
-
-        // Update modal content
         document.getElementById("modalTitle").textContent = `🎉 Thanks, ${firstName}!`;
         document.getElementById("modalMessage").textContent =
           `We've received your booking for ${roomLabel}.\n\n📬 We'll message you on WhatsApp or email within 24 hours.`;
-
-        // Show modal
         document.getElementById("successModal").classList.remove("hidden");
-
-        // Reset form and button
         document.getElementById("bookingForm").reset();
-        submitBtn.disabled = false;
-        submitText.textContent = 'Submit Booking Request';
-        submitSpinner.classList.add('hidden');
-        
-        // Clear all form states
-        document.querySelectorAll('.form-input').forEach(input => {
-          input.classList.remove('success', 'error');
-        });
+        submitBtn.disabled = false; submitText.textContent = 'Submit Booking Request'; submitSpinner.classList.add('hidden');
+        document.querySelectorAll('.form-input').forEach(input => input.classList.remove('success', 'error'));
       }, 2000);
     }
-
     function closeSuccessModal() {
       document.getElementById("successModal").classList.add("hidden");
     }
   </script>
 
   <!-- Floating WhatsApp Button -->
-  <a href="https://wa.me/+263719870746?text=Hi%20Goshen%2C%20I'm%20interested%20in%20boarding" 
-     class="floating-whatsapp bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-all duration-300 transform hover:scale-110">
+  <a href="https://wa.me/+263719870746?text=Hi%20Goshen%2C%20I'm%20interested%20in%20boarding"
+     class="floating-whatsapp bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition-all duration-300 transform hover:scale-110" aria-label="WhatsApp">
     <i data-lucide="message-circle" class="w-6 h-6"></i>
   </a>
 
   <!-- Back to Top Button -->
-  <button class="back-to-top bg-primary text-white p-4 rounded-full shadow-2xl hover:bg-secondary transition-all duration-300 transform hover:scale-110" id="backToTop">
+  <button class="back-to-top bg-primary text-white p-4 rounded-full shadow-2xl hover:bg-secondary transition-all duration-300 transform hover:scale-110" id="backToTop" aria-label="Back to top">
     <i data-lucide="arrow-up" class="w-6 h-6"></i>
   </button>
 
   <!-- Footer -->
   <footer class="bg-dark text-white pt-24 pb-16 px-6 font-body border-t border-white/10">
     <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-start">
-
-      <!-- Left Column -->
       <div class="space-y-10 text-center md:text-left">
         <div>
-          <h3 class="text-5xl font-heading text-gold font-black tracking-tight leading-snug mb-6">
-            Goshen Oasis Boarding House
-          </h3>
+          <h3 class="text-5xl font-heading text-gold font-black tracking-tight leading-snug mb-6">Goshen Oasis Boarding House</h3>
           <p class="text-xl text-gray-300 leading-relaxed max-w-lg mx-auto md:mx-0">
             A ladies-only boarding sanctuary built for learning, growth, and comfort.
           </p>
@@ -935,10 +736,7 @@
         </ul>
       </div>
 
-      <!-- Right Column -->
       <div class="space-y-10 text-center md:text-right">
-
-        <!-- Social Icons -->
         <div class="flex justify-center md:justify-end gap-8 text-gold">
           <a href="https://www.facebook.com/profile.php?id=61578948534844" class="group flex flex-col items-center hover:text-white transition-all duration-300">
             <i data-lucide="facebook" class="w-8 h-8 mb-2 group-hover:scale-110 transition-transform"></i>
@@ -950,34 +748,21 @@
           </a>
         </div>
 
-        <!-- QR Code -->
         <div class="flex flex-col items-center md:items-end">
-          <img src="assets/images/QR.png"
-               alt="QR Code to Goshen Links"
-               class="w-40 sm:w-44 rounded-2xl border-2 border-gold shadow-2xl" />
-          <p class="text-base font-bold text-gray-300 mt-4 leading-tight">
-            Scan for Links
-          </p>
+          <img src="assets/images/QR.png" alt="QR Code to Goshen Links" class="w-40 sm:w-44 rounded-2xl border-2 border-gold shadow-2xl" />
+          <p class="text-base font-bold text-gray-300 mt-4 leading-tight">Scan for Links</p>
         </div>
       </div>
     </div>
 
-    <!-- Bottom Strip -->
     <div class="mt-20 border-t border-white/10 pt-8 text-center text-base text-gray-400 tracking-wide">
       © 2025 Goshen Campus Oasis &bull; Built with ❤️ for students of Masvingo &bull; Site by
-      <a href="https://craytivo.com" target="_blank" class="text-gold underline hover:text-white transition">
-        Craytivo
-      </a>
+      <a href="https://craytivo.com" target="_blank" class="text-gold underline hover:text-white transition">Craytivo</a>
     </div>
   </footer>
 
-  <!-- Lucide Icons -->
+  <!-- Lucide Icons (once) -->
   <script src="https://unpkg.com/lucide@latest" defer></script>
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
-    });
-  </script>
-
 </body>
 </html>
+
