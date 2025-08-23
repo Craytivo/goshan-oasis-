@@ -134,6 +134,15 @@
 
     /* Swiper containment */
     .swiper { overflow: hidden; }
+
+    /* Reserve space for the fixed header + fix in-page anchor jumps */
+:root { --header-h: 80px; }              /* safe fallback */
+body { padding-top: var(--header-h); }   /* push all content below the nav */
+html { scroll-padding-top: var(--header-h); }
+
+/* Optional: ensure #anchor links don't land under the nav */
+[id] { scroll-margin-top: calc(var(--header-h) + 8px); }
+
   </style>
 </head>
 
@@ -145,18 +154,17 @@
   <nav id="site-header"
        class="fixed inset-x-0 top-0 z-50 bg-white/95 supports-[backdrop-filter]:bg-white/80 backdrop-blur border-b border-primary/10 transition-[box-shadow,background-color] duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="h-24 sm:h-32 lg:h-44 flex items-center justify-between">
-        <!-- Brand (logo 2× larger) -->
-<a href="./index.html" class="flex items-center gap-3 min-w-0">
-  <img
-    src="assets/images/goshen oasis logo - no bg.png"
-    alt="Goshen Oasis Logo"
-    class="h-24 sm:h-32 lg:h-40 w-auto shrink-0"
-    loading="eager"
-    decoding="async"
-  />
-  
-</a>
+      <div class="h-24 sm:h-32 lg:h-44 flex items-center justify-between">
+        <!-- Brand -->
+        <a href="./index.html" class="flex items-center gap-3 min-w-0">
+          <img
+            src="assets/images/goshen oasis logo - no bg.png"
+            alt="Goshen Oasis Logo"
+            class="h-24 sm:h-32 lg:h-40 w-auto shrink-0"
+            loading="eager"
+            decoding="async"
+          />
+        </a>
 
         <!-- Desktop nav -->
         <nav class="hidden lg:flex items-center gap-8" aria-label="Primary">
@@ -195,45 +203,87 @@
     </div>
   </nav>
 
-  <!-- ===== Hero ===== -->
-  <header class="relative bg-gradient-to-br from-primary via-secondary to-dark text-white py-32 px-6 shadow-2xl overflow-hidden mt-16 sm:mt-20">
+  <!-- Keep header height in a CSS variable -->
+  <script>
+  (function () {
+    const header = document.getElementById('site-header');
+    if (!header) return;
+
+    const setHeaderOffset = () => {
+      const h = Math.ceil(header.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--header-h', h + 'px');
+    };
+
+    window.addEventListener('load', setHeaderOffset);
+    window.addEventListener('resize', setHeaderOffset);
+
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(setHeaderOffset).observe(header);
+    }
+
+    const toggle = document.getElementById('menuToggle');
+    toggle?.addEventListener('click', () => setTimeout(setHeaderOffset, 50));
+
+    setHeaderOffset();
+  })();
+  </script>
+
+  <!-- ===== Hero (centered vertically below the fixed nav) ===== -->
+  <header
+    class="relative bg-gradient-to-br from-primary via-secondary to-dark text-white
+           px-6 shadow-2xl overflow-hidden
+           pt-[var(--header-h,80px)]"
+  >
+    <!-- Background overlay spans under the nav for a seamless edge -->
     <div class="absolute inset-0 bg-black/20"></div>
-    <div class="max-w-7xl mx-auto text-center relative z-10">
-      <div class="mx-auto mb-12 w-fit px-8 py-6 rounded-2xl shadow-2xl animate-float"
-           style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 2px solid rgba(255, 255, 255, 0.3);">
-        <img src="assets/images/goshen oasis logo - no bg.png" alt="Goshen Oasis Logo"
-             class="w-28 sm:w-36 md:w-40 h-auto mx-auto drop-shadow-xl" />
+
+    <!-- Centering wrapper: fills viewport minus nav height -->
+    <div class="relative z-10 max-w-7xl mx-auto">
+      <div class="grid place-items-center text-center
+                  min-h-[calc(100vh-var(--header-h,80px))]
+                  py-12 md:py-16">
+        <!-- Badge -->
+        <a href="#booking"
+           class="group inline-flex max-w-full items-center gap-3
+                  text-base sm:text-lg font-extrabold tracking-wide
+                  bg-gold text-dark px-8 py-3.5 rounded-full
+                  shadow-xl ring-2 ring-white/60 ring-offset-2 ring-offset-black/20
+                  drop-shadow-md mb-8 border-2 border-white/30
+                  hover:shadow-2xl hover:-translate-y-0.5 transition">
+          <span class="h-2.5 w-2.5 rounded-full bg-primary"></span>
+          🎓 Rooms Available — Book for August 2025 Now
+        </a>
+
+        <!-- Headline -->
+        <h1
+          class="text-5xl sm:text-6xl md:text-7xl font-heading font-bold tracking-tight leading-tight mb-8 text-white drop-shadow-lg"
+        >
+          Safe. Stylish.
+          <span class="bg-gradient-to-r from-cream via-white to-gold bg-clip-text text-transparent drop-shadow-lg">
+            Student Living.
+          </span>
+        </h1>
+
+        <!-- Subhead -->
+        <p class="text-xl sm:text-2xl max-w-4xl mx-auto mb-12 font-body text-cream/95 leading-relaxed">
+          At <strong class="text-gold font-semibold">Goshen Oasis</strong>, your safety comes first.
+          <strong class="text-gold font-semibold">Feel protected in our secure, gated ladies-only residence</strong>
+          just minutes from Great Zimbabwe University - Masvingo. Enjoy peace of mind with furnished rooms,
+          solar power, and Starlink WiFi — your home away from home from just
+          <strong class="text-gold font-bold text-2xl">$80/month</strong>.
+        </p>
+
+        <!-- Primary CTA -->
+        <a href="https://wa.me/+263719870746?text=Hi%20Goshen%2C%20I'm%20interested%20in%20boarding"
+           class="inline-flex items-center gap-3 bg-cream text-primary hover:bg-gold hover:text-dark font-bold px-10 py-4 rounded-full shadow-2xl transition-all duration-300 text-lg">
+          <i data-lucide="message-circle" class="w-5 h-5"></i>
+          Inquire on WhatsApp
+        </a>
       </div>
-
-      <span class="inline-block text-sm sm:text-base font-semibold tracking-wide bg-gold text-primary px-6 py-3 rounded-full shadow-lg mb-8 animate-pulse border-2 border-white/20">
-        🎓 Rooms Available – Book for August 2025 Now
-      </span>
-
-      <h1
-  class="text-5xl sm:text-6xl md:text-7xl font-heading font-bold tracking-tight leading-tight mb-8 text-white drop-shadow-lg animate-fade-in"
->
-  Safe. Stylish.
-  <span class="bg-gradient-to-r from-cream via-white to-gold bg-clip-text text-transparent drop-shadow-lg">
-    Student Living.
-  </span>
-</h1>
-
-
-      <p class="text-xl sm:text-2xl max-w-4xl mx-auto mb-12 font-body text-cream/95 leading-relaxed animate-slide-up">
-        At <strong class="text-gold font-semibold">Goshen Oasis</strong>, your safety comes first.
-        <strong class="text-gold font-semibold">Feel protected in our secure, gated ladies-only residence</strong>
-        just minutes from Great Zimbabwe University - Masvingo. Enjoy peace of mind with furnished rooms,
-        solar power, and Starlink WiFi — your home away from home from just
-        <strong class="text-gold font-bold text-2xl">$80/month</strong>.
-      </p>
-
-      <a href="https://wa.me/+263719870746?text=Hi%20Goshen%2C%20I'm%20interested%20in%20boarding"
-         class="inline-flex items-center gap-3 bg-cream text-primary hover:bg-gold hover:text-dark font-bold px-10 py-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 text-lg">
-        <i data-lucide="message-circle" class="w-5 h-5"></i>
-        Inquire on WhatsApp
-      </a>
     </div>
   </header>
+
+
 
   <!-- ===== Amenities ===== -->
   <section id="amenities" class="py-32 px-6 sm:px-10 lg:px-16 bg-light text-dark font-body">
