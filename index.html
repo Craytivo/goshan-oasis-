@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Goshen Campus Oasis | Masvingo Boarding</title>
   <meta name="description" content="Affordable and secure student accommodation near Masvingo University. Fast WiFi, solar backup, clean facilities. Starting at $80/month." />
   <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
@@ -11,7 +11,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS with Custom Config -->
+  <!-- Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -59,14 +59,13 @@
     };
   </script>
 
-  <!-- Base Styles -->
+  <!-- Base Styles (no @apply; safe on CDN) -->
   <style>
-    /* Hard reset to prevent horizontal scroll anywhere */
+    /* Prevent horizontal scroll anywhere */
     *, *::before, *::after { box-sizing: border-box; }
     html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
     html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
 
-    /* Replace Tailwind @apply with plain CSS for CDN usage */
     body {
       background-color: #fefbf6; /* light */
       color: #1c2a21;           /* dark */
@@ -78,8 +77,6 @@
     h1, h2, h3, h4, h5, h6 {
       font-family: Merriweather, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     }
-
-    /* Media cannot exceed viewport */
     img, video { max-width: 100%; height: auto; display: block; }
 
     .gradient-text {
@@ -93,26 +90,19 @@
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
-    .card-hover {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .card-hover:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    }
+    .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
 
-    /* Loading States */
+    /* Loading shimmer */
     .loading { position: relative; overflow: hidden; }
     .loading::after {
-      content: '';
-      position: absolute; top: 0; left: -100%;
-      width: 100%; height: 100%;
+      content: ''; position: absolute; inset: 0; left: -100%;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
       animation: loading 1.5s infinite;
     }
     @keyframes loading { 0% { left: -100%; } 100% { left: 100%; } }
 
-    /* Scroll Animations */
+    /* Fade-on-scroll */
     .fade-in-up { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }
     .fade-in-up.visible { opacity: 1; transform: translateY(0); }
 
@@ -123,37 +113,26 @@
       z-index: 9999; transition: width 0.3s ease;
     }
 
-    /* Floating WhatsApp Button */
-    .floating-whatsapp {
-      position: fixed; bottom: 2rem; right: 2rem; z-index: 1000;
-      animation: bounce 2s infinite;
-    }
+    /* Floating buttons */
+    .floating-whatsapp { position: fixed; bottom: 2rem; right: 2rem; z-index: 1000; animation: bounce 2s infinite; }
     @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      0%,20%,50%,80%,100% { transform: translateY(0); }
       40% { transform: translateY(-10px); }
       60% { transform: translateY(-5px); }
     }
-
-    /* Back to Top Button */
-    .back-to-top {
-      position: fixed; bottom: 2rem; left: 2rem; z-index: 1000;
-      opacity: 0; visibility: hidden; transition: all 0.3s ease;
-    }
+    .back-to-top { position: fixed; bottom: 2rem; left: 2rem; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
     .back-to-top.visible { opacity: 1; visibility: visible; }
 
-    /* Form Validation Styles */
-    .form-input.error { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1); }
-    .form-input.success { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+    /* Form states */
+    .form-input.error { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
+    .form-input.success { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
     .error-message { color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem; }
 
-    /* Loading Spinner */
-    .spinner {
-      width: 20px; height: 20px; border: 2px solid #f3f3f3; border-top: 2px solid #2f6639;
-      border-radius: 50%; animation: spin 1s linear infinite;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    /* Spinner */
+    .spinner { width: 20px; height: 20px; border: 2px solid #f3f3f3; border-top: 2px solid #2f6639; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Ensure Swiper never leaks width */
+    /* Swiper containment */
     .swiper { overflow: hidden; }
   </style>
 </head>
@@ -162,58 +141,84 @@
   <!-- Progress Bar -->
   <div class="progress-bar" id="progressBar"></div>
 
-  <!-- Sticky Navigation -->
-  <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-primary/10 transition-all duration-300" id="navbar">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <div class="flex items-center gap-4">
-        <img src="assets/images/goshen oasis logo - no bg.png" alt="Goshen Oasis Logo" class="h-8 w-auto" />
-        <span class="hidden sm:block font-bold text-primary">Goshen Oasis</span>
+  <!-- ===== Header / Nav (Large Logo, No Overflow) ===== -->
+  <nav id="site-header"
+       class="fixed inset-x-0 top-0 z-50 bg-white/95 supports-[backdrop-filter]:bg-white/80 backdrop-blur border-b border-primary/10 transition-[box-shadow,background-color] duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="h-24 sm:h-32 lg:h-44 flex items-center justify-between">
+        <!-- Brand (logo 2× larger) -->
+<a href="./index.html" class="flex items-center gap-3 min-w-0">
+  <img
+    src="assets/images/goshen oasis logo - no bg.png"
+    alt="Goshen Oasis Logo"
+    class="h-24 sm:h-32 lg:h-40 w-auto shrink-0"
+    loading="eager"
+    decoding="async"
+  />
+  
+</a>
+
+        <!-- Desktop nav -->
+        <nav class="hidden lg:flex items-center gap-8" aria-label="Primary">
+          <a href="#amenities" class="text-dark/80 hover:text-primary font-medium">Amenities</a>
+          <a href="#video" class="text-dark/80 hover:text-primary font-medium">Video</a>
+          <a href="#gallery" class="text-dark/80 hover:text-primary font-medium">Gallery</a>
+        </nav>
+
+        <!-- Right actions -->
+        <div class="hidden lg:flex items-center gap-3">
+          <a href="#booking"
+             class="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 font-semibold text-white hover:bg-secondary transition">
+            Book Now
+          </a>
+        </div>
+
+        <!-- Mobile toggle -->
+        <button id="menuToggle"
+                class="lg:hidden rounded-md p-2 -mr-1 ring-1 ring-primary/20 hover:ring-primary/40 active:scale-[0.98] transition"
+                aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+          <i data-lucide="menu" class="w-6 h-6 text-dark"></i>
+        </button>
       </div>
-      <div class="hidden md:flex gap-8 items-center">
-        <a href="#amenities" class="hover:text-primary transition-colors duration-300 font-medium">Amenities</a>
-        <a href="#video" class="hover:text-primary transition-colors duration-300 font-medium">Video</a>
-        <a href="#gallery" class="hover:text-primary transition-colors duration-300 font-medium">Gallery</a>
-        <a href="#booking" class="bg-primary text-white px-6 py-2 rounded-xl hover:bg-secondary transition-all duration-300 font-bold">Book Now</a>
-      </div>
-      <button class="md:hidden" id="mobileMenuBtn" aria-label="Toggle menu">
-        <i data-lucide="menu" class="w-6 h-6"></i>
-      </button>
     </div>
-    <!-- Mobile Menu -->
-    <div class="md:hidden hidden bg-white border-t border-primary/10" id="mobileMenu">
-      <div class="px-6 py-4 space-y-4">
-        <a href="#amenities" class="block hover:text-primary transition-colors duration-300">Amenities</a>
-        <a href="#video" class="block hover:text-primary transition-colors duration-300">Video</a>
-        <a href="#gallery" class="block hover:text-primary transition-colors duration-300">Gallery</a>
-        <a href="#booking" class="block bg-primary text-white px-4 py-2 rounded-lg text-center">Book Now</a>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="lg:hidden hidden border-t border-primary/10 bg-white">
+      <div class="px-6 py-4 space-y-2">
+        <a href="#amenities" class="block py-3 text-lg font-medium text-dark/90 hover:text-primary">Amenities</a>
+        <a href="#video" class="block py-3 text-lg font-medium text-dark/90 hover:text-primary">Video</a>
+        <a href="#gallery" class="block py-3 text-lg font-medium text-dark/90 hover:text-primary">Gallery</a>
+        <a href="#booking" class="mt-2 block w-full text-center rounded-xl bg-primary px-5 py-3 font-semibold text-white hover:bg-secondary">
+          Book Now
+        </a>
       </div>
     </div>
   </nav>
 
-  <!-- Header -->
-  <header class="relative bg-gradient-to-br from-primary via-secondary to-dark text-white py-32 px-6 shadow-2xl overflow-hidden">
+  <!-- ===== Hero ===== -->
+  <header class="relative bg-gradient-to-br from-primary via-secondary to-dark text-white py-32 px-6 shadow-2xl overflow-hidden mt-16 sm:mt-20">
     <div class="absolute inset-0 bg-black/20"></div>
     <div class="max-w-7xl mx-auto text-center relative z-10">
-
-      <!-- Glassmorphism Logo Card -->
       <div class="mx-auto mb-12 w-fit px-8 py-6 rounded-2xl shadow-2xl animate-float"
            style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 2px solid rgba(255, 255, 255, 0.3);">
         <img src="assets/images/goshen oasis logo - no bg.png" alt="Goshen Oasis Logo"
              class="w-28 sm:w-36 md:w-40 h-auto mx-auto drop-shadow-xl" />
       </div>
 
-      <!-- Booking Badge -->
       <span class="inline-block text-sm sm:text-base font-semibold tracking-wide bg-gold text-primary px-6 py-3 rounded-full shadow-lg mb-8 animate-pulse border-2 border-white/20">
         🎓 Rooms Available – Book for August 2025 Now
       </span>
 
-      <!-- Hero Heading -->
-      <h1 class="text-5xl sm:text-6xl md:text-7xl font-heading font-black leading-tight mb-8 text-cream animate-fade-in">
-        Safe. Stylish.
-        <span class="gradient-text">Student Living.</span>
-      </h1>
+      <h1
+  class="text-5xl sm:text-6xl md:text-7xl font-heading font-bold tracking-tight leading-tight mb-8 text-white drop-shadow-lg animate-fade-in"
+>
+  Safe. Stylish.
+  <span class="bg-gradient-to-r from-cream via-white to-gold bg-clip-text text-transparent drop-shadow-lg">
+    Student Living.
+  </span>
+</h1>
 
-      <!-- Subheading -->
+
       <p class="text-xl sm:text-2xl max-w-4xl mx-auto mb-12 font-body text-cream/95 leading-relaxed animate-slide-up">
         At <strong class="text-gold font-semibold">Goshen Oasis</strong>, your safety comes first.
         <strong class="text-gold font-semibold">Feel protected in our secure, gated ladies-only residence</strong>
@@ -222,7 +227,6 @@
         <strong class="text-gold font-bold text-2xl">$80/month</strong>.
       </p>
 
-      <!-- CTA Button -->
       <a href="https://wa.me/+263719870746?text=Hi%20Goshen%2C%20I'm%20interested%20in%20boarding"
          class="inline-flex items-center gap-3 bg-cream text-primary hover:bg-gold hover:text-dark font-bold px-10 py-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 text-lg">
         <i data-lucide="message-circle" class="w-5 h-5"></i>
@@ -231,7 +235,7 @@
     </div>
   </header>
 
-  <!-- Amenities Section -->
+  <!-- ===== Amenities ===== -->
   <section id="amenities" class="py-32 px-6 sm:px-10 lg:px-16 bg-light text-dark font-body">
     <div class="text-center mb-24 px-4 sm:px-6">
       <span class="inline-block uppercase tracking-wider text-xs font-bold text-primary bg-primary/10 border-2 border-primary px-6 py-2 rounded-full shadow-lg mb-8">
@@ -239,8 +243,7 @@
       </span>
 
       <h2 class="text-5xl sm:text-6xl lg:text-7xl font-heading font-black text-primary leading-tight tracking-tight max-w-5xl mx-auto mb-8">
-        Clean, Secure & Purpose-Built for
-        <span class="gradient-text">Student Success</span>
+        Clean, Secure & Purpose-Built for <span class="gradient-text">Student Success</span>
       </h2>
 
       <p class="text-xl sm:text-2xl text-dark/80 max-w-3xl mx-auto leading-relaxed mb-12">
@@ -257,12 +260,9 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-      <!-- Cards -->
       <div class="bg-white rounded-2xl p-8 shadow-xl card-hover border border-primary/10">
         <div class="flex gap-6 items-start">
-          <div class="bg-primary/10 p-4 rounded-xl">
-            <i data-lucide="home" class="text-primary w-8 h-8"></i>
-          </div>
+          <div class="bg-primary/10 p-4 rounded-xl"><i data-lucide="home" class="text-primary w-8 h-8"></i></div>
           <div>
             <h3 class="text-xl font-bold mb-3 text-primary">Top Quality Facilities</h3>
             <p class="text-dark/80 leading-relaxed">Spacious bedrooms, clean bathrooms, shared kitchen, and a cozy lounge for winding down.</p>
@@ -272,9 +272,7 @@
 
       <div class="bg-white rounded-2xl p-8 shadow-xl card-hover border border-primary/10">
         <div class="flex gap-6 items-start">
-          <div class="bg-primary/10 p-4 rounded-xl">
-            <i data-lucide="book-open-check" class="text-primary w-8 h-8"></i>
-          </div>
+          <div class="bg-primary/10 p-4 rounded-xl"><i data-lucide="book-open-check" class="text-primary w-8 h-8"></i></div>
           <div>
             <h3 class="text-xl font-bold mb-3 text-primary">Study-Friendly Rooms</h3>
             <p class="text-dark/80 leading-relaxed">Each room includes a personal desk, perfect for focused study and productivity.</p>
@@ -284,9 +282,7 @@
 
       <div class="bg-white rounded-2xl p-8 shadow-xl card-hover border border-primary/10">
         <div class="flex gap-6 items-start">
-          <div class="bg-primary/10 p-4 rounded-xl">
-            <i data-lucide="briefcase" class="text-primary w-8 h-8"></i>
-          </div>
+          <div class="bg-primary/10 p-4 rounded-xl"><i data-lucide="briefcase" class="text-primary w-8 h-8"></i></div>
           <div>
             <h3 class="text-xl font-bold mb-3 text-primary">Private Storage</h3>
             <p class="text-dark/80 leading-relaxed">Individual wardrobes provide ample space and a sense of personal organization.</p>
@@ -296,9 +292,7 @@
 
       <div class="bg-white rounded-2xl p-8 shadow-xl card-hover border border-primary/10">
         <div class="flex gap-6 items-start">
-          <div class="bg-primary/10 p-4 rounded-xl">
-            <i data-lucide="wifi" class="text-primary w-8 h-8"></i>
-          </div>
+          <div class="bg-primary/10 p-4 rounded-xl"><i data-lucide="wifi" class="text-primary w-8 h-8"></i></div>
           <div>
             <h3 class="text-xl font-bold mb-3 text-primary">High-Speed Internet</h3>
             <p class="text-dark/80 leading-relaxed">Unlimited Starlink-powered WiFi ensures fast, reliable connection for studies and streaming.</p>
@@ -308,9 +302,7 @@
 
       <div class="bg-white rounded-2xl p-8 shadow-xl card-hover border border-primary/10">
         <div class="flex gap-6 items-start">
-          <div class="bg-primary/10 p-4 rounded-xl">
-            <i data-lucide="zap" class="text-primary w-8 h-8"></i>
-          </div>
+          <div class="bg-primary/10 p-4 rounded-xl"><i data-lucide="zap" class="text-primary w-8 h-8"></i></div>
           <div>
             <h3 class="text-xl font-bold mb-3 text-primary">Solar & ZESA Backup</h3>
             <p class="text-dark/80 leading-relaxed">24/7 access to power for lighting, device charging, and essential needs—even during outages.</p>
@@ -320,9 +312,7 @@
 
       <div class="bg-white rounded-2xl p-8 shadow-xl card-hover border border-primary/10">
         <div class="flex gap-6 items-start">
-          <div class="bg-primary/10 p-4 rounded-xl">
-            <i data-lucide="leaf" class="text-primary w-8 h-8"></i>
-          </div>
+          <div class="bg-primary/10 p-4 rounded-xl"><i data-lucide="leaf" class="text-primary w-8 h-8"></i></div>
           <div>
             <h3 class="text-xl font-bold mb-3 text-primary">Outdoor Comfort</h3>
             <p class="text-dark/80 leading-relaxed">A peaceful garden space ideal for taking breaks, socializing, or hosting Braai weekends.</p>
@@ -336,7 +326,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-  <!-- Video Section -->
+  <!-- ===== Video ===== -->
   <section id="video" class="py-32 px-6 bg-light text-dark font-body">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-20">
@@ -348,11 +338,7 @@
 
       <div class="relative max-w-4xl mx-auto">
         <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
-          <video
-            class="w-full h-auto"
-            controls
-            poster="assets/images/rutendo-petros-qefUmV2BjHs-unsplash.jpg"
-            preload="metadata">
+          <video class="w-full h-auto" controls poster="assets/images/rutendo-petros-qefUmV2BjHs-unsplash.jpg" preload="metadata">
             <source src="assets/images/video.mov" type="video/quicktime">
             <source src="assets/images/video.mov" type="video/mp4">
             Your browser does not support the video tag.
@@ -367,7 +353,7 @@
     </div>
   </section>
 
-  <!-- Gallery Section -->
+  <!-- ===== Gallery ===== -->
   <section id="gallery" class="py-32 px-6 bg-dark text-cream font-body overflow-hidden">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-20">
@@ -412,13 +398,13 @@
       gridItem.className = "rounded-2xl overflow-hidden shadow-2xl bg-white/10 backdrop-blur-sm border border-cream/20 card-hover";
       gridItem.innerHTML = `
         <img src="${src}" alt="${caption}" loading="lazy" class="w-full h-80 object-cover" />
-        <div class="p-6 text-center border-t border-cream/20">
+        <div class="p-6 text-center border-cream/20 border-t">
           <p class="text-lg font-semibold text-cream">${caption}</p>
         </div>
       `;
       grid.appendChild(gridItem);
 
-      // Mobile swiper slide
+      // Mobile slide
       const slide = document.createElement("div");
       slide.className = "swiper-slide flex justify-center";
       slide.innerHTML = `
@@ -440,9 +426,10 @@
     });
   </script>
 
-  <!-- Booking Form -->
+  <!-- ===== Booking ===== -->
   <section id="booking" class="py-32 px-6 sm:px-10 lg:px-16 bg-light text-dark font-body">
     <div class="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-2 gap-20 justify-center">
+      <!-- Form -->
       <form id="bookingForm" onsubmit="handleFormSubmit(event)"
             class="bg-white p-10 rounded-3xl shadow-2xl border border-primary/10 space-y-8 w-full">
         <div class="text-center mb-8">
@@ -499,6 +486,7 @@
         </button>
       </form>
 
+      <!-- Right info -->
       <div class="hidden lg:block">
         <div class="flex flex-col justify-center h-full text-center lg:text-left">
           <span class="inline-block uppercase tracking-wider text-xs font-bold text-primary bg-primary/10 border-2 border-primary px-6 py-2 rounded-full mb-8 self-center lg:self-start">
@@ -506,8 +494,7 @@
           </span>
 
           <h3 class="text-5xl sm:text-6xl font-heading font-black text-primary leading-tight tracking-tight mb-8">
-            A Clean, Secure Place to
-            <span class="gradient-text">Call Home</span>
+            A Clean, Secure Place to <span class="gradient-text">Call Home</span>
           </h3>
 
           <p class="text-xl text-dark/80 leading-relaxed mb-12">
@@ -529,169 +516,20 @@
     </div>
   </section>
 
-  <!-- Success Modal -->
+  <!-- ===== Success Modal ===== -->
   <div id="successModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center px-4">
     <div class="bg-white/95 backdrop-blur-md border-2 border-primary/20 shadow-2xl rounded-3xl p-10 w-full max-w-lg text-center relative animate-fade-in">
-      <button onclick="closeSuccessModal()" class="absolute top-4 right-6 text-dark hover:text-primary text-2xl font-bold" aria-label="Close modal">
-        &times;
-      </button>
+      <button onclick="closeSuccessModal()" class="absolute top-4 right-6 text-dark hover:text-primary text-2xl font-bold" aria-label="Close modal">&times;</button>
       <div class="mb-6">
         <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
           <i data-lucide="check" class="text-primary w-8 h-8"></i>
         </div>
       </div>
       <h3 id="modalTitle" class="text-3xl font-heading font-bold text-primary mb-4">Thank you!</h3>
-      <p id="modalMessage" class="whitespace-pre-line text-dark/80 text-lg mb-8 leading-relaxed">
-        Your booking has been submitted.
-      </p>
-      <button onclick="closeSuccessModal()" class="bg-primary hover:bg-secondary text-white font-bold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105">
-        Close
-      </button>
+      <p id="modalMessage" class="whitespace-pre-line text-dark/80 text-lg mb-8 leading-relaxed">Your booking has been submitted.</p>
+      <button onclick="closeSuccessModal()" class="bg-primary hover:bg-secondary text-white font-bold px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105">Close</button>
     </div>
   </div>
-
-  <script>
-    // Performance & Loading Improvements
-    document.addEventListener('DOMContentLoaded', function() {
-      initProgressBar();
-      initScrollAnimations();
-      initMobileMenu();
-      initFormValidation();
-      initBackToTop();
-      initImageLazyLoading();
-      // Initialize lucide icons
-      if (window.lucide && lucide.createIcons) lucide.createIcons();
-    });
-
-    // Progress Bar
-    function initProgressBar() {
-      const progressBar = document.getElementById('progressBar');
-      window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset;
-        const docHeight = document.body.offsetHeight - window.innerHeight;
-        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        progressBar.style.width = scrollPercent + '%';
-      });
-    }
-
-    // Scroll Animations
-    function initScrollAnimations() {
-      const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-      }, observerOptions);
-      document.querySelectorAll('.card-hover, .amenities-card').forEach(el => {
-        el.classList.add('fade-in-up');
-        observer.observe(el);
-      });
-    }
-
-    // Mobile Menu
-    function initMobileMenu() {
-      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-      const mobileMenu = document.getElementById('mobileMenu');
-      mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-      mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
-    }
-
-    // Form Validation
-    function initFormValidation() {
-      const form = document.getElementById('bookingForm');
-      const inputs = form.querySelectorAll('.form-input');
-      inputs.forEach(input => {
-        input.addEventListener('blur', validateField);
-        input.addEventListener('input', clearError);
-      });
-    }
-    function validateField(e) {
-      const field = e.target;
-      const errorElement = document.getElementById(field.id + 'Error');
-      field.classList.remove('error', 'success');
-      errorElement.classList.add('hidden');
-      if (field.required && !field.value.trim()) {
-        showError(field, errorElement, 'This field is required'); return false;
-      }
-      if (field.type === 'email' && field.value) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(field.value)) { showError(field, errorElement, 'Please enter a valid email address'); return false; }
-      }
-      if (field.type === 'tel' && field.value) {
-        const phoneRegex = /^\+?[\d\s\-\(\)]+$/;
-        if (!phoneRegex.test(field.value)) { showError(field, errorElement, 'Please enter a valid phone number'); return false; }
-      }
-      if (field.value.trim()) field.classList.add('success');
-      return true;
-    }
-    function showError(field, errorElement, message) {
-      field.classList.add('error'); errorElement.textContent = message; errorElement.classList.remove('hidden');
-    }
-    function clearError(e) {
-      const field = e.target; const errorElement = document.getElementById(field.id + 'Error');
-      field.classList.remove('error'); errorElement.classList.add('hidden');
-    }
-
-    // Back to Top Button
-    function initBackToTop() {
-      const backToTopBtn = document.getElementById('backToTop');
-      window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) backToTopBtn.classList.add('visible');
-        else backToTopBtn.classList.remove('visible');
-      });
-      backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    }
-
-    // Image Lazy Loading
-    function initImageLazyLoading() {
-      const images = document.querySelectorAll('img[loading="lazy"]');
-      if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const img = entry.target;
-              img.src = img.dataset?.src || img.src;
-              img.classList.remove('loading');
-              observer.unobserve(img);
-            }
-          });
-        });
-        images.forEach(img => { img.classList.add('loading'); imageObserver.observe(img); });
-      }
-    }
-
-    // Enhanced Form Submission
-    function handleFormSubmit(event) {
-      event.preventDefault();
-      const inputs = document.querySelectorAll('.form-input');
-      let isValid = true;
-      inputs.forEach(input => { if (!validateField({ target: input })) isValid = false; });
-      if (!isValid) return;
-
-      const submitBtn = document.getElementById('submitBtn');
-      const submitText = document.getElementById('submitText');
-      const submitSpinner = document.getElementById('submitSpinner');
-      submitBtn.disabled = true; submitText.textContent = 'Submitting...'; submitSpinner.classList.remove('hidden');
-
-      setTimeout(() => {
-        const name = document.getElementById("name").value.trim();
-        const room = document.getElementById("room").value;
-        const roomLabel = {
-          "3-in-room": "🛏️ 3 in a room – $80/month",
-          "2-in-room": "🛌 2 in a room – $90/month"
-        }[room] || "your selected room";
-        const firstName = name.split(" ")[0] || "Friend";
-        document.getElementById("modalTitle").textContent = `🎉 Thanks, ${firstName}!`;
-        document.getElementById("modalMessage").textContent =
-          `We've received your booking for ${roomLabel}.\n\n📬 We'll message you on WhatsApp or email within 24 hours.`;
-        document.getElementById("successModal").classList.remove("hidden");
-        document.getElementById("bookingForm").reset();
-        submitBtn.disabled = false; submitText.textContent = 'Submit Booking Request'; submitSpinner.classList.add('hidden');
-        document.querySelectorAll('.form-input').forEach(input => input.classList.remove('success', 'error'));
-      }, 2000);
-    }
-    function closeSuccessModal() {
-      document.getElementById("successModal").classList.add("hidden");
-    }
-  </script>
 
   <!-- Floating WhatsApp Button -->
   <a href="https://wa.me/+263719870746?text=Hi%20Goshen%2C%20I'm%20interested%20in%20boarding"
@@ -704,7 +542,7 @@
     <i data-lucide="arrow-up" class="w-6 h-6"></i>
   </button>
 
-  <!-- Footer -->
+  <!-- ===== Footer ===== -->
   <footer class="bg-dark text-white pt-24 pb-16 px-6 font-body border-t border-white/10">
     <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-start">
       <div class="space-y-10 text-center md:text-left">
@@ -761,8 +599,162 @@
     </div>
   </footer>
 
-  <!-- Lucide Icons (once) -->
+  <!-- ===== Scripts ===== -->
+  <script>
+    // Header shadow on scroll
+    (function () {
+      const header = document.getElementById('site-header');
+      const onScroll = () => header.classList.toggle('shadow-lg', window.scrollY > 4);
+      onScroll(); window.addEventListener('scroll', onScroll);
+    })();
+
+    // Mobile menu toggle (locks body scroll while open)
+    (function () {
+      const btn = document.getElementById('menuToggle');
+      const menu = document.getElementById('mobileMenu');
+      btn?.addEventListener('click', () => {
+        const willOpen = menu.classList.contains('hidden');
+        menu.classList.toggle('hidden');
+        btn.setAttribute('aria-expanded', String(willOpen));
+        document.body.classList.toggle('overflow-hidden', willOpen);
+        // Swap icon (menu <-> x) if Lucide is present
+        if (window.lucide && btn.querySelector('i')) {
+          const icon = btn.querySelector('i');
+          icon.setAttribute('data-lucide', willOpen ? 'x' : 'menu');
+          lucide.createIcons();
+        }
+      });
+    })();
+
+    // Progress Bar
+    (function initProgressBar() {
+      const progressBar = document.getElementById('progressBar');
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.body.offsetHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = scrollPercent + '%';
+      });
+    })();
+
+    // Scroll Animations
+    (function initScrollAnimations() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      document.querySelectorAll('.card-hover, .amenities-card').forEach(el => {
+        el.classList.add('fade-in-up');
+        observer.observe(el);
+      });
+    })();
+
+    // Back to Top Button
+    (function initBackToTop() {
+      const backToTopBtn = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) backToTopBtn.classList.add('visible');
+        else backToTopBtn.classList.remove('visible');
+      });
+      backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    })();
+
+    // Lazy Loading images
+    (function initImageLazyLoading() {
+      const images = document.querySelectorAll('img[loading="lazy"]');
+      if (!('IntersectionObserver' in window)) return;
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset?.src || img.src;
+            img.classList.remove('loading');
+            observer.unobserve(img);
+          }
+        });
+      });
+      images.forEach(img => { img.classList.add('loading'); imageObserver.observe(img); });
+    })();
+
+    // Form Validation helpers
+    function initFormValidation() {
+      const form = document.getElementById('bookingForm');
+      const inputs = form.querySelectorAll('.form-input');
+      inputs.forEach(input => {
+        input.addEventListener('blur', validateField);
+        input.addEventListener('input', clearError);
+      });
+    }
+    function validateField(e) {
+      const field = e.target;
+      const errorElement = document.getElementById(field.id + 'Error');
+      field.classList.remove('error', 'success');
+      errorElement?.classList.add('hidden');
+
+      if (field.required && !field.value.trim()) {
+        showError(field, errorElement, 'This field is required'); return false;
+      }
+      if (field.type === 'email' && field.value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(field.value)) { showError(field, errorElement, 'Please enter a valid email address'); return false; }
+      }
+      if (field.type === 'tel' && field.value) {
+        const phoneRegex = /^\+?[\d\s\-\(\)]+$/;
+        if (!phoneRegex.test(field.value)) { showError(field, errorElement, 'Please enter a valid phone number'); return false; }
+      }
+      if (field.value.trim()) field.classList.add('success');
+      return true;
+    }
+    function showError(field, errorElement, message) {
+      field.classList.add('error'); if (errorElement) { errorElement.textContent = message; errorElement.classList.remove('hidden'); }
+    }
+    function clearError(e) {
+      const field = e.target; const errorElement = document.getElementById(field.id + 'Error');
+      field.classList.remove('error'); errorElement?.classList.add('hidden');
+    }
+
+    // Enhanced Form Submission
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      const inputs = document.querySelectorAll('.form-input');
+      let isValid = true;
+      inputs.forEach(input => { if (!validateField({ target: input })) isValid = false; });
+      if (!isValid) return;
+
+      const submitBtn = document.getElementById('submitBtn');
+      const submitText = document.getElementById('submitText');
+      const submitSpinner = document.getElementById('submitSpinner');
+      submitBtn.disabled = true; submitText.textContent = 'Submitting...'; submitSpinner.classList.remove('hidden');
+
+      setTimeout(() => {
+        const name = document.getElementById("name").value.trim();
+        const room = document.getElementById("room").value;
+        const roomLabel = {
+          "3-in-room": "🛏️ 3 in a room – $80/month",
+          "2-in-room": "🛌 2 in a room – $90/month"
+        }[room] || "your selected room";
+        const firstName = name.split(" ")[0] || "Friend";
+        document.getElementById("modalTitle").textContent = `🎉 Thanks, ${firstName}!`;
+        document.getElementById("modalMessage").textContent =
+          `We've received your booking for ${roomLabel}.\n\n📬 We'll message you on WhatsApp or email within 24 hours.`;
+        document.getElementById("successModal").classList.remove("hidden");
+        document.getElementById("bookingForm").reset();
+        submitBtn.disabled = false; submitText.textContent = 'Submit Booking Request'; submitSpinner.classList.add('hidden');
+        document.querySelectorAll('.form-input').forEach(input => input.classList.remove('success', 'error'));
+      }, 2000);
+    }
+
+    // Initialize features after DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      initFormValidation();
+      if (window.lucide && lucide.createIcons) lucide.createIcons();
+    });
+
+    function closeSuccessModal() {
+      document.getElementById("successModal").classList.add("hidden");
+    }
+  </script>
+
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest" defer></script>
 </body>
 </html>
-
